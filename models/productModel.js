@@ -12,21 +12,21 @@ export const createProductTable = async () => {
       const connection = await pool.getConnection();
   
       await connection.execute(`
-          CREATE TABLE IF NOT EXISTS products (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            name VARCHAR(255) NOT NULL,
-            slug VARCHAR(255) NOT NULL,
-            description VARCHAR(2025) NOT NULL,
-            price FLOAT NOT NULL,
-            category_id INT,
-            quantity INT,
-            photo VARCHAR(2025) NOT NULL,
-            shipping TINYINT DEFAULT 0, 
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-            deleted_at TIMESTAMP NULL,
-            FOREIGN KEY (category_id) REFERENCES categories(id)
-          )
+        CREATE TABLE IF NOT EXISTS products (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name VARCHAR(255) NOT NULL,
+          slug VARCHAR(255) NOT NULL,
+          description VARCHAR(2025) NOT NULL,
+          price FLOAT NOT NULL,
+          category_id INT,
+          quantity INT,
+          photo VARCHAR(2025) NOT NULL,
+          shipping TINYINT DEFAULT 0, 
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          deleted_at TIMESTAMP NULL,
+          FOREIGN KEY (category_id) REFERENCES categories(id)
+        )
       `);
   
       connection.release();

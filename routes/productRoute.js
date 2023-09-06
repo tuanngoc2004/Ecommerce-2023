@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAdmin, requireSignIn } from '../middlewares/authMiddleware.js';
+import { authenticateUser, isAdmin, requireSignIn } from '../middlewares/authMiddleware.js';
 import { 
   createProductController,
   deleteProductController, 

@@ -624,25 +624,26 @@ export const braintreeTokenController = async (req, res) => {
 
 export const brainTreePaymentController = async (req, res) => {
   createOrderTable().then((success) => {
-      if (success) {
+    if (success) {
       console.log("Tables created successfully!");
-      } else {
+    } else {
       console.log("Error creating tables.");
-      }
-    })
-    .catch((error) => {
-        console.error("Error creating tables:", error);
+    }
+  }).catch((error) => {
+    console.error("Error creating tables:", error);
   });
+
   try {
     const { nonce, cart } = req.body;
     let total = 0;
     cart.map((item) => {
       total += item.price;
     });
-
+    console.log(cart);
     // Call the createOrder function to create the order in the database
     const orderId = await createOrder(cart, req.user.id, req.body);
     console.log(orderId);
+    // console.log(orderId);
     res.json({ ok: true });
   } catch (error) {
     console.log(error);
@@ -653,3 +654,4 @@ export const brainTreePaymentController = async (req, res) => {
     });
   }
 };
+

@@ -39,36 +39,41 @@ export const createOrderTable = async () => {
 
 export const createOrder = async (products, buyerId, paymentDetails) => {
     try {
-      const connection = await pool.getConnection();
-  
-      // Begin a transaction to ensure atomicity
-      await connection.beginTransaction();
-  
-      try {
-        // Insert the order into the database
-        const [result] = await connection.execute(
-          `
-          INSERT INTO orders (products, status, buyer_id, payment)
-          VALUES (?, ?, ?, ?)
-        `,
-          [JSON.stringify(products), 'Not Process', buyerId, JSON.stringify(paymentDetails)]
-        );
-  
-        const orderId = result.insertId;
-  
-        // Commit the transaction if everything is successful
-        await connection.commit();
-  
-        return orderId;
-      } catch (error) {
-        // Rollback the transaction in case of an error
-        await connection.rollback();
-        throw error;
-      } finally {
-        connection.release(); // Release the database connection
-      }
+        const connection = await pool.getConnection();
+
+        // Begin a transaction to ensure atomicity
+        await connection.beginTransaction();
+
+        try {
+            // Check if required parameters are provided
+            if (!products || !buyerId || !paymentDetails) {
+                throw new Error('Missing required parameters for creating an order.');
+            }
+
+            // Insert the order into the database
+            const [result] = await connection.execute(
+                `
+                INSERT INTO orders (products, status, buyer_id, payment)
+                VALUES (?, ?, ?, ?)
+            `,
+                [JSON.stringify(products), 'Not Process', buyerId, JSON.stringify(paymentDetails)]
+            );
+
+            const orderId = result.insertId;
+
+            // Commit the transaction if everything is successful
+            await connection.commit();
+
+            return orderId;
+        } catch (error) {
+            // Rollback the transaction in case of an error
+            await connection.rollback();
+            throw error;
+        } finally {
+            connection.release(); // Release the database connection
+        }
     } catch (error) {
-      throw error;
+        throw error;
     }
 };
 
