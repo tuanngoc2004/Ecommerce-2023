@@ -24,6 +24,7 @@ import fs from 'fs/promises';
 import braintree from "braintree";
 import dotenv from "dotenv";
 import { createOrder, createOrderTable } from "../models/orderModel.js";
+import { getIdLoggedIn } from "../middlewares/authMiddleware.js";
 
 
 
@@ -407,7 +408,7 @@ export const productCountController = async (req, res) => {
 
 export const productListController = async (req, res) => {
   try {
-    const perPage = 2;
+    const perPage = 6;
     const page = req.params.page ? parseInt(req.params.page) : 1; // Parse the page number as an integer
 
     const products = await getAllProductsPerPage(perPage, page);
@@ -640,10 +641,11 @@ export const brainTreePaymentController = async (req, res) => {
       total += item.price;
     });
     console.log(cart);
-    // Call the createOrder function to create the order in the database
-    const orderId = await createOrder(cart, req.user.id, req.body);
-    console.log(orderId);
-    // console.log(orderId);
+    const buyer_id = await getIdLoggedIn(req);
+    console.log(buyer_id);
+    console.log(req.body)
+    const orderId = await createOrder(cart, buyer_id, req.body);
+  
     res.json({ ok: true });
   } catch (error) {
     console.log(error);
@@ -654,4 +656,5 @@ export const brainTreePaymentController = async (req, res) => {
     });
   }
 };
+
 

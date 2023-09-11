@@ -34,8 +34,9 @@ const SearchInput = () => {
                 aria-label="Search"
                 value={values.keyword}
                 onChange={(e) => setValues({...values, keyword: e.target.value})}
+                style={{ borderRadius: '5px', marginRight: '10px', padding: '5px' }}
             />
-            <button classname="btn btn-outline-success" type="submit">
+            <button classname="btn btn-outline-success" type="submit" style={{ borderRadius: '5px', padding: '5px 10px', backgroundColor: '#42ba96', color: 'white', border: 'none' }}>
                 Search
             </button>
         </form>

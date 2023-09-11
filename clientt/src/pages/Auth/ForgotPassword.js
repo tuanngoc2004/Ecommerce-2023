@@ -16,7 +16,7 @@ const ForgotPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // try{
+        try{
             const res = await axios.post(`${process.env.REACT_APP_API}/api/forgot-password`,
                 { email, password, answer }
             );
@@ -26,10 +26,10 @@ const ForgotPassword = () => {
             }else{
                 toast.error(res.data.message);
             }
-        // }catch(e){
-        //     console.log(e);
-        //     toast.error("Something went wrong");
-        // }
+        }catch(e){
+            console.log(e);
+            toast.error("Something went wrong");
+        }
     }
   return (
     <Layout title={'Forgot Password - Ecommerce App'}>

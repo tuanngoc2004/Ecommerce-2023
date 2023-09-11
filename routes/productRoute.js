@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticateUser, isAdmin, requireSignIn } from '../middlewares/authMiddleware.js';
+import { isAdmin, requireSignIn } from '../middlewares/authMiddleware.js';
 import { 
   createProductController,
   deleteProductController, 
@@ -66,6 +66,7 @@ router.put(
   router.get("/braintree/token", braintreeTokenController);
 
   //payments
-  router.post("/braintree/payment", requireSignIn, brainTreePaymentController);
+  router.post("/braintree/payment", requireSignIn,  brainTreePaymentController);
+
 
 export default router;

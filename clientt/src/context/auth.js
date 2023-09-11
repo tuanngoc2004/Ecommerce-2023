@@ -6,7 +6,7 @@ const AuthContext = createContext()
 const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState({
         user:null,
-        token:""
+        token:"",
     });
 
     //default axios
@@ -25,6 +25,7 @@ const AuthProvider = ({children}) => {
         //eslint-disable-next-line
     }, []);
 
+    
     return (
         <AuthContext.Provider value={[auth, setAuth]}>
             {children}
@@ -36,3 +37,13 @@ const AuthProvider = ({children}) => {
 const useAuth = () => useContext(AuthContext);
 
 export { useAuth, AuthProvider};
+
+
+
+
+
+
+
+
+
+

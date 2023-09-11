@@ -52,3 +52,33 @@ export const isAdmin = async (req, res, next) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 };
+
+export const getIdLoggedIn = async (req) => {
+  try {
+    const token = req.headers.authorization || req.cookies.token;
+
+    if (!token) {
+      
+     
+throw new Error('No token found');
+    }
+
+    const decoded = JWT.verify(token, process.env.JWT_SECRET);
+    
+    // Ensure that the user ID is available in the decoded token
+    if (!decoded.userId) {
+      console.error('User ID not found in token');
+      return null; // Return null if userId is not found
+    }
+
+    
+   
+return decoded.userId;
+  } catch (error) {
+    console.error(error);
+    return null; // Return null if there's an error or no token
+  }
+};
+
+
+

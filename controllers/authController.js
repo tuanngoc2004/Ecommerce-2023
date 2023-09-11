@@ -1,9 +1,7 @@
 import { ComparePassword, hashPassword } from "../helpers/authHelper.js";
-import { createUser, findById, findByIdAndUpdate, findEmailAndUpdate, findUserByEmail } from "../models/userModel.js";
+import { createUser, editStatus, findById, findByIdAndUpdate, findEmailAndUpdate, findUserByEmail, getAllUsers, getOrderAllUserId, getOrderUserId,updateStatus, getUserOrders } from "../models/userModel.js";
 import { createUsersTable } from "../models/userModel.js";
 import JWT from "jsonwebtoken";
-
-// Run the function to create the users table
 
 
 export const registerController = async (req, res) => {
@@ -331,3 +329,249 @@ export const updateProfileController = async (req, res) => {
 //     });
 //   }
 // };
+
+
+
+//get orders
+// export const getOrdersController = async (req, res) => {
+//   try{
+//     const orders = await orderModel
+//     .find({ buyer: req.user.id })
+//     .populate("products", "-photo")
+//     .populate("buyer", "name");
+//   res.json(orders);
+//   }catch(error){
+//     console.log(error);
+//     res.status(500).send({
+//       success: false,
+//       message: 'Error while geting orders',
+//       error
+//     })
+//   }
+// }
+
+export const getOrdersController = async (req, res) => {
+  try {
+    // Assuming you have user ID available in req.user.id
+    const userId = req.user.id;
+    console.log(userId);
+    // Call the getOrderUserId function to retrieve orders
+    const orders = await getOrderUserId(userId);
+    console.log(orders);
+    if (orders) {
+      // return res.status(200).send({
+      //   success: true,
+      //   orders,
+      // });
+      
+      // orders: orders.map((order) => ({
+      //   ...order,
+      //   buyer_name: order.buyer_name, // Access the buyer's name from the result
+      // })),
+      res.json(orders);
+    } else {
+      return res.status(404).send({
+        success: false,
+        message: 'No orders found for the user',
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: 'Error while getting orders',
+      error,
+    });
+  }
+};
+
+
+//orders
+
+// export const getAllOrdersController = async (req, res) => {
+//   try {
+//     const orders = await orderModel
+//       .find({})
+//       .populate("products", "-photo")
+//       .populate("buyer", "name")
+//       .sort({ createdAt: "-1" });
+//     res.json(orders);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send({
+//       success: false,
+//       message: "Error WHile Geting Orders",
+//       error,
+//     });
+//   }
+// };
+export const getAllOrdersController = async (req, res) => {
+  try {
+    // Assuming you have user ID available in req.user.id
+    const userId = req.user.id;
+
+    // Call the getOrderUserId function to retrieve orders
+    const orders = await getOrderAllUserId(userId);
+
+    if (orders) {
+      res.json(orders);
+    } else {
+      return res.status(404).send({
+        success: false,
+        message: 'No orders found for the user',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      success: false,
+      message: 'Error while getting orders',
+      error,
+    });
+  }
+};
+
+
+
+//order status
+// export const orderStatusController = async (req, res) => {
+//   try {
+//     const { orderId } = req.params;
+//     const { status } = req.body;
+//     const orders = await orderModel.findByIdAndUpdate(
+//       orderId,
+//       { status },
+//       { new: true }
+//     );
+//     res.json(orders);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).send({
+//       success: false,
+//       message: "Error While Updateing Order",
+//       error,
+//     });
+//   }
+// };
+export const orderStatusController = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { status } = req.body;
+
+    const isUpdated = await updateStatus(orderId, status);
+
+    if (isUpdated) {
+      return res.status(200).send({
+        success: true,
+        message: 'Order status updated successfully',
+      });
+    } else {
+      return res.status(404).send({
+        success: false,
+        message: 'Order not found',
+      });
+    }
+  } 
+
+     
+catch (error) {
+    console.error(error);
+    res.status(500).send({
+      success: false,
+      message: 'Error while updating order status',
+      error,
+    });
+  }
+};
+
+
+// Function to get all users
+export const getAllUsersController = async (req, res) => {
+  try {
+    const users = await getAllUsers(); // Create a new function in your userModel.js to retrieve all users
+    if (users) {
+      return res.status(200).send({
+        success: true,
+        users,
+      });
+    } else {
+      return res.status(404).send({
+        success: false,
+        message: 'No users found',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      success: false,
+      message: 'Error while getting users',
+      error,
+    });
+  }
+};
+
+// Function to edit user status
+export const editStatusController = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { role_as } = req.body;
+    console.log(userId);
+    console.log(role_as);
+    
+    const isUpdated = await editStatus(userId, role_as); // Create a new function in your userModel.js to update user status
+
+    if (isUpdated) {
+      return res.status(200).send({
+        success: true,
+        message: 'User status updated successfully',
+      });
+    } else {
+      return res.status(404).send({
+        success: false,
+        message: 'User not found',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      success: false,
+      message: 'Error while updating user status',
+      error,
+    });
+  }
+};
+
+
+
+// authController.js
+// ... (Previous code)
+
+// import { getUserOrders } from "../models/userModel.js";
+
+export const getUserOrdersController = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    // Call the getUserOrders function to retrieve orders for the user
+    const orders = await getUserOrders(userId);
+
+    if (orders) {
+      return res.status(200).send({
+        success: true,
+        orders,
+      });
+    } else {
+      return res.status(404).send({
+        success: false,
+        message: 'No orders found for the user',
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({
+      success: false,
+      message: 'Error while getting user orders',
+      error,
+    });
+  }
+};

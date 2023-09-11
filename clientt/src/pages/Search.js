@@ -23,7 +23,7 @@ const Search = () => {
                     <div className="d-flex flex-wrap">
                         {Array.isArray(values?.results) &&
                             values?.results.map((p) => (
-                                <div className="card m-2" style={{ width:"18rem" }} key={p.id}>
+                                <div className="card m-2" style={{ width:"20rem" }} key={p.id}>
                                     <img src={`${process.env.REACT_APP_API}/api/product/product-photo/${p.id}?${Date.now()}`} alt={p.name} className="card-img-top" />
                                     <div className="card-body">
                                         <h5 className="card-title">{p.name}</h5>

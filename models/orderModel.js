@@ -8,33 +8,32 @@ const pool = mysql.createPool({
 });
 
 export const createOrderTable = async () => {
-  try {
-    const connection = await pool.getConnection();
-
-    await connection.execute(`
-      CREATE TABLE IF NOT EXISTS orders (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        products INT NOT NULL,
-        status ENUM('Not Process', 'Processing', 'Shipped', 'Delivered', 'Canceled') DEFAULT 'Not Process',
-        buyer_id INT NOT NULL,
-        payment JSON,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        deleted_at TIMESTAMP NULL,
-        FOREIGN KEY (products) REFERENCES products(id), 
-        FOREIGN KEY (buyer_id) REFERENCES users(id)
-      )
-    `);
-
-    connection.release();
-
-    console.log("Orders table created successfully!");
-    return true;
-  } catch (error) {
-    console.error("Error creating orders table:", error);
-    return false;
-  }
-};
+    try {
+      const connection = await pool.getConnection();
+  
+      await connection.execute(`
+        CREATE TABLE IF NOT EXISTS orders (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          products JSON NOT NULL,
+          status ENUM('Not Process', 'Processing', 'Shipped', 'Delivered', 'Canceled') DEFAULT 'Not Process',
+          buyer_id INT NOT NULL,
+          payment JSON,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          deleted_at TIMESTAMP NULL
+        )
+      `);
+  
+      connection.release();
+  
+      console.log("Orders table created successfully!");
+      return true;
+    } catch (error) {
+      console.error("Error creating orders table:", error);
+      return false;
+    }
+  };
+  
 
 
 export const createOrder = async (products, buyerId, paymentDetails) => {
@@ -47,6 +46,11 @@ export const createOrder = async (products, buyerId, paymentDetails) => {
         try {
             // Check if required parameters are provided
             if (!products || !buyerId || !paymentDetails) {
+                console.error('Missing required parameters for creating an order:');
+                if (!products) console.error('- products');
+                if (!buyerId) console.error('- buyerId');
+                if (!paymentDetails) console.error('- paymentDetails');
+                
                 throw new Error('Missing required parameters for creating an order.');
             }
 

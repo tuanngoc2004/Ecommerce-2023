@@ -191,3 +191,123 @@ export const findByIdAndUpdate = async (id, user) => {
     return null;
   }
 };
+
+
+export const getOrderUserId = async (userId) => {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.execute(
+      // "SELECT * FROM orders WHERE buyer_id = ?",
+      "SELECT o.*, u.name AS buyer_name FROM orders o JOIN users u ON o.buyer_id = u.id WHERE o.buyer_id = ? ORDER BY o.created_at DESC",
+      [userId]
+    );
+
+    connection.release();
+
+    return rows;
+  } catch (error) {
+    console.error("Error getting orders by user ID:", error);
+    return null;
+  }
+};
+
+export const getOrderAllUserId = async () => {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.execute(
+      "SELECT o.*, u.name AS buyer_name FROM orders o JOIN users u ON o.buyer_id = u.id WHERE u.role_as = 0 ORDER BY o.created_at DESC"
+    );
+
+    connection.release();
+
+    return rows;
+  } catch (error) {
+    console.error("Error getting orders by user ID:", error);
+    return null;
+  }
+};
+
+
+export const updateStatus = async (orderId, status) => {
+  try {
+    const connection = await pool.getConnection();
+
+    const [result] = await connection.execute(
+      'UPDATE orders SET status = ? WHERE id = ?',
+      [status, orderId]
+    );
+
+    connection.release();
+
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error("Error updating order status:", error);
+    return false;
+  }
+};
+
+
+// Import necessary modules
+
+// ...
+
+// Function to get all users
+export const getAllUsers = async () => {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.execute(
+      'SELECT * FROM users WHERE role_as = 0 OR role_as = 3'
+    );
+
+    connection.release();
+
+    return rows;
+  } catch (error) {
+    console.error("Error getting all users:", error);
+    return null;
+  }
+};
+
+// Function to edit user status
+export const editStatus = async (userId, role_as) => {
+  try {
+    const connection = await pool.getConnection();
+
+    const [result] = await connection.execute(
+      'UPDATE users SET role_as = ? WHERE id = ?',
+      [role_as, userId]
+    );
+
+    connection.release();
+
+    return result.affectedRows > 0;
+  } catch (error) {
+    console.error("Error updating user status:", error);
+    return false;
+  }
+};
+
+
+// userModel.js
+// ... (Previous code)
+
+export const getUserOrders = async (userId) => {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.execute(
+      'SELECT * FROM orders WHERE buyer_id = ?',
+      [userId]
+    );
+
+    connection.release();
+
+    return rows;
+  } catch (error) {
+    console.error("Error getting orders by user ID:", error);
+    return null;
+  }
+};

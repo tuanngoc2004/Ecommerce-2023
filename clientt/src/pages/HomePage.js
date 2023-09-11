@@ -3,10 +3,12 @@ import Layout from '../components/Layout/Layout'
 import { useNavigate } from 'react-router-dom'
 // import { useAuth } from '../context/auth'
 import axios from 'axios'
+import { AiOutlineReload } from "react-icons/ai"; 
 import {Checkbox, Radio} from 'antd'
 import { Prices } from '../components/Prices'
 import { useCart } from '../context/cart'
 import { toast } from 'react-hot-toast'
+import "../styles/Homepage.css";
 
 const HomePage = () => {
   // const [auth, setAuth] =useAuth();
@@ -125,8 +127,16 @@ const HomePage = () => {
 
   return (
     <Layout title={"All Products - Best offers"}>
-      <div className="row mt-3">
-        <div className="col-md-2">
+      {/* banner image */}
+      <img
+        src="/images/banner.png"
+        className="banner-img"
+        alt="bannerimage"
+        width={"100%"}
+      />
+
+      <div className="container-fluid row mt-3 home-page">
+        <div className="col-md-3 filters">
           <h4 className="text-center">Filter By Category</h4>
           <div className="d-flex flex-column">
           {categories?.map(c => (
@@ -163,13 +173,18 @@ const HomePage = () => {
                 <div className="card m-2" style={{ width:"18rem" }}>
                     <img src={`${process.env.REACT_APP_API}/api/product/product-photo/${p.id}?${Date.now()}`} alt={p.name} className="card-img-top" />
                     <div className="card-body">
-                        <h5 className="card-title">{p.name}</h5>
+                        <h5 className="card-title">{p.name.substring(0, 40)}...</h5>
                         <p className="card-text">
                           {p.description.substring(0, 30)}...
                         </p>
                         <p className="card-text"> $ {p.price}</p>
-                        <button className="btn btn-primary ms-1" onClick={() => navigate(`/product/${p.slug}`)}>More Details</button>
-                        <button className="btn btn-secondary ms-1" 
+                        <button
+                          className="btn btn-info ms-1"
+                          onClick={() => navigate(`/product/${p.slug}`)}
+                        >
+                          More Details
+                        </button>
+                        <button className="btn btn-dark ms-1" 
                           onClick={() => {
                               setCart([...cart, p])
                               localStorage.setItem("cart", JSON.stringify([...cart, p]));
@@ -181,16 +196,23 @@ const HomePage = () => {
                 </div>
             ))}
           </div>
-          <div className='m-2 p-3'>
+          <div className="m-2 p-3">
             {products && products.length < total && (
               <button
-                className="btn btn-warning"
+                className="btn loadmore"
                 onClick={(e) => {
                   e.preventDefault();
                   setPage(page + 1);
                 }}
               >
-                {loading ? "Loading ..." : "Loadmore"}
+                {loading ? (
+                  "Loading ..."
+                ) : (
+                  <>
+                    {" "}
+                    Loadmore <AiOutlineReload />
+                  </>
+                )}
               </button>
             )}
           </div>
