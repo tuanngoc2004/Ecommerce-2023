@@ -41,7 +41,7 @@ export const isAdmin = async (req, res, next) => {
   const token = req.headers.authorization || req.cookies.token;
 
   if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' }); // Add 'return' here
+    return res.status(401).json({ message: 'Unauthorized' }); 
   }
 
   try {
