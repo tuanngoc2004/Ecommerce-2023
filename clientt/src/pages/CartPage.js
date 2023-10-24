@@ -159,7 +159,10 @@ const CartPage = () => {
                                         <div className="col-md-4">
                                             <p>{item.name.substring(0, 20)}....</p>
                                             <p>{item.description.substring(0, 40)}...</p>
-                                            <p>Price: {item.price}</p>
+                                            <p>Price: {item.price.toLocaleString("vi-VN", {
+                                              style: "currency",
+                                              currency: "VND",
+                                            })}</p>
                                             
                                         </div>
                                         <div className="col-md-4 cart-remove-btn">

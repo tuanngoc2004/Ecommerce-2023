@@ -6,12 +6,15 @@ import "../styles/ProductDetailsStyles.css";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import ReactHtmlParser from 'react-html-parser';
+import { useCart } from '../context/cart';
+import toast from 'react-hot-toast';
 
 const ProductDetails = () => {
   const params = useParams();
   const [product, setProduct] = useState({});
   const [category, setCategory] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [cart, setCart] = useCart();
 
   //initalp details
   useEffect(() => {
@@ -63,6 +66,21 @@ const ProductDetails = () => {
     }
   };
 
+  const addToCart = (product) => {
+    const productInCart = cart.find((item) => item.id === product.id);
+  
+    if (productInCart) {
+      // Sản phẩm đã tồn tại trong giỏ hàng, không thêm nữa
+      toast.error("This item is already in your cart");
+    } else {
+      // Sản phẩm chưa tồn tại trong giỏ hàng, thêm vào giỏ hàng với số lượng mặc định là 1
+      const productWithQuantity = { ...product, quantity: 1 }; // Set quantity to 1
+      setCart([...cart, productWithQuantity]);
+      localStorage.setItem("cart", JSON.stringify([...cart, productWithQuantity]));
+      toast.success("Item Added to Cart");
+    }
+  }
+
   return (
     <Layout>
         <div className="row container product-details">
@@ -105,8 +123,17 @@ const ProductDetails = () => {
                         <p className="card-text">
                           {p.description.substring(0, 30)}...
                         </p>
-                        <p className="card-text"> $ {p.price}</p>
-                        <button className="btn btn-secondary ms-1">ADD TO CART</button>
+                        <p className="card-text"> Price: {p.price.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}</p>
+                        {/* <button className="btn btn-secondary ms-1">ADD TO CART</button> */}
+                        <button
+                          className="btn btn-dark ms-1"
+                          onClick={() => addToCart(p)}
+                        >
+                          ADD TO CART
+                        </button>
                     </div>
                 </div>
             ))}
