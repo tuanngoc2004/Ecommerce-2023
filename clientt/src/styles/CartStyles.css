@@ -27,3 +27,28 @@
     text-align: center;
     /* margin-top: -140px !important; */
   }
+
+  /* CSS for + and - quantity buttons */
+.cart-page .quantity-controls {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.cart-page .quantity-controls button {
+  padding: 5px 10px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.cart-page .quantity-controls button:hover {
+  background-color: #0056b3;
+}
+
+.cart-page .quantity-controls span {
+  font-size: 16px;
+  margin: 0 10px;
+}

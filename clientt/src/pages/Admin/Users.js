@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Layout from '../../components/Layout/Layout'
+import Layout2 from '../../components/Layout/Layout2';
 import AdminMenu from '../../components/Layout/AdminMenu'
 import axios from 'axios';
 import UserDetail from './UserDetails';
@@ -48,7 +48,7 @@ const Users = () => {
     setSelectedUserId(userId);
   };
   return (
-    <Layout title={"Dashboard - All Users"}>
+    <Layout2 title={"Dashboard - All Users"}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -112,7 +112,7 @@ const Users = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </Layout2>
   )
 }
 

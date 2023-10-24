@@ -249,10 +249,6 @@ export const updateStatus = async (orderId, status) => {
 };
 
 
-// Import necessary modules
-
-// ...
-
 // Function to get all users
 export const getAllUsers = async () => {
   try {
@@ -292,7 +288,6 @@ export const editStatus = async (userId, role_as) => {
 
 
 // userModel.js
-// ... (Previous code)
 
 export const getUserOrders = async (userId) => {
   try {

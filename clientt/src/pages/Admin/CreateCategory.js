@@ -1,10 +1,11 @@
 import React,{useEffect, useState} from 'react'
-import Layout from '../../components/Layout/Layout'
+// import Layout from '../../components/Layout/Layout'
 import AdminMenu from '../../components/Layout/AdminMenu'
 import toast from "react-hot-toast";
 import axios from "axios";
 import CategoryForm from '../../components/Form/CategoryForm';
 import { Modal } from "antd";
+import Layout2 from '../../components/Layout/Layout2';
 
 const CreateCategory = () => {
     const [categories, setCategories] = useState([]);
@@ -90,7 +91,7 @@ const CreateCategory = () => {
     }
 
   return (
-    <Layout title={"Dashboard - Create Category"}>
+    <Layout2 title={"Dashboard - Create Category"}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -144,7 +145,7 @@ const CreateCategory = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </Layout2>
   )
 }
 

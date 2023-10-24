@@ -152,34 +152,6 @@ export const findByIdAndDelete = async (productId) => {
     }
 };
 
-  
-// export const findByIdAndDelete = async (productId) => {
-//   try {
-//     const connection = await pool.getConnection();
-    
-//     const [rows, _] = await connection.execute(
-//       "DELETE FROM products WHERE id = ?",
-//       [productId]
-//     );
-
-//     connection.release();
-
-//     if (rows.affectedRows > 0) {
-//       console.log("Product deleted successfully!");
-//       return true;
-//     } else {
-//       console.log("Product not found for deletion.");
-//       return false;
-//     }
-//   } catch (error) {
-//     console.error("Error deleting product:", error);
-//     return false;
-//   }
-// };
-
-
-// productModel.js
-
 
 export const findByIdAndUpdate = async (productId, updatedFields, updatedPhotoPath) => {
     try {
@@ -187,11 +159,12 @@ export const findByIdAndUpdate = async (productId, updatedFields, updatedPhotoPa
 
         const updateQuery = `
             UPDATE products
-            SET name = ?, description = ?, price = ?, category_id = ?, quantity = ?, shipping = ?, photo = ?
+            SET name = ?, slug = ?, description = ?, price = ?, category_id = ?, quantity = ?, shipping = ?, photo = ?
             WHERE id = ?`;
 
         const queryParams = [
             updatedFields.name,
+            updatedFields.slug,
             updatedFields.description,
             updatedFields.price,
             updatedFields.category_id,
@@ -313,33 +286,6 @@ export const searchProduct = async (keyword) => {
   }
 };
 
-// export const searchProduct = async (req, res) => {
-//   try {
-//     const { keyword } = req.params;
-//     const connection = await pool.getConnection(); // Assuming you already have a 'pool' for MySQL connection.
-
-//     const query = `
-//       SELECT * FROM products
-//       WHERE name LIKE ? OR description LIKE ?
-//     `;
-    
-//     const [rows] = await connection.execute(query, [`%${keyword}%`, `%${keyword}%`]);
-
-//     connection.release();
-
-//     res.status(200).send({
-//       success: true,
-//       products: rows,
-//     });
-//   } catch (error) {
-//     console.error("Error in search product:", error);
-//     res.status(500).send({
-//       success: false,
-//       message: "Error in search product",
-//       error: error.message,
-//     });
-//   }
-// };
 
 
 export const findRelatedProducts = async (productId, categoryId, limit = 3) => {
@@ -399,3 +345,84 @@ export const findProductsByCategory = async (categoryId) => {
 };
 
 
+export const countProducts = async () => {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.execute("SELECT COUNT(*) as count FROM products");
+
+    connection.release();
+
+    return rows[0].count || 0; // Trả về số lượng products
+  } catch (error) {
+    console.error("Error counting products:", error);
+    return 0;
+  }
+};
+
+
+
+export const getAllProductsPerPage2 = async (perPage, page) => {
+  try {
+    const connection = await pool.getConnection();
+    const offset = (page - 1) * perPage;
+
+    const [rows] = await connection.execute(
+      `
+      SELECT p.*, c.name AS category_name
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      ORDER BY p.created_at DESC
+      LIMIT ? OFFSET ?
+      `,
+      [perPage, offset]
+    );
+
+    connection.release();
+
+    return rows;
+  } catch (error) {
+    console.error("Error getting products with pagination:", error);
+    return [];
+  }
+};
+
+export const getProductCount2 = async () => {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.execute(
+      "SELECT COUNT(*) AS total FROM products"
+    );
+
+    connection.release();
+
+    return rows[0].total;
+  } catch (error) {
+    console.error("Error getting product count:", error);
+    throw error;
+  }
+};
+
+
+export const searchProductAdmin = async (keyword) => {
+  try {
+    const connection = await pool.getConnection();
+
+    const query = `
+      SELECT p.*, c.name AS category_name
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      WHERE p.name LIKE ? OR p.description LIKE ?
+    `;
+
+    const [rows] = await connection.execute(query, [`%${keyword}%`, `%${keyword}%`]);
+
+    connection.release();
+
+    return rows;
+  } catch (error) {
+    console.error("Error in search product:", error);
+    throw error; // Rethrow the error to be caught by the calling function
+  }
+};

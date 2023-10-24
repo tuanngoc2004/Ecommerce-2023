@@ -55,7 +55,7 @@
   }
   
   .ant-checkbox-wrapper:first-of-type {
-    margin-left: 8px;
+    /* margin-left: 8px; */
   }
   
   .ant-checkbox-wrapper {
@@ -79,3 +79,5 @@
     font-weight: bold;
     font-size: 20px !important;
   }
+
+  

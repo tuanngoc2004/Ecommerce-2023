@@ -14,7 +14,11 @@ import {
   realtedProductController,
   productCategoryController,
   braintreeTokenController,
-  brainTreePaymentController } from '../controllers/productContronller.js';
+  brainTreePaymentController, 
+  countProductsController,
+  productList2Controller,
+  countProducts2Controller,
+  searchProductAdminController} from '../controllers/productContronller.js';
 import formidable from 'express-formidable'
 
 
@@ -68,5 +72,14 @@ router.put(
   //payments
   router.post("/braintree/payment", requireSignIn,  brainTreePaymentController);
 
+  //admin count
+  router.get("/count-product", countProductsController);
 
+  //product per page
+router.get("/product-listt/:page", productList2Controller);
+
+//product count
+router.get("/product-countt", countProducts2Controller);
+
+router.get("/search", searchProductAdminController);
 export default router;

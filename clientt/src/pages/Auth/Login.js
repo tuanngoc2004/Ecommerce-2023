@@ -45,12 +45,17 @@ const Login = () => {
         }
     }
 
+    const handleCreateAccount = () => {
+        navigate('/register');
+    }
+
     return (
         <Layout title={"Login - Ecommer App"}>
             <div className="form-container" style={{ minHeight: "90vh" }}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className='login-form'>
                     <h4>Login Form</h4>
                     <div className="mb-3">
+                        <label htmlFor="exampleInputEmail1">Email</label>
                         <input
                             type="email"
                             value={email}
@@ -62,6 +67,7 @@ const Login = () => {
                         />
                     </div>
                     <div className="mb-3">
+                        <label htmlFor="exampleInputPassword1">Password</label>
                         <input
                             type="password"
                             value={password}
@@ -72,15 +78,30 @@ const Login = () => {
                             required
                         />
                     </div>
+
+                    <button type="submit" className="btn btn-primary login">
+                        Login
+                    </button>
+
                     <div className="mb-3">
-                        <button type="button" className="btn btn-primary mt-3" onClick={(e) => { navigate('/forgot-password') }}>
+                        <button type="button" className="btn btn-primary mt-3 fg-pass" onClick={(e) => { navigate('/forgot-password') }}>
                             Forgot Password
                         </button>
                     </div>
 
-                    <button type="submit" className="btn btn-primary">
-                        Login
-                    </button>
+                    <p style={{ textAlign: "right", marginTop: "10px" }}>
+                        <small
+                            className="create-account-link"
+                            onClick={handleCreateAccount}
+                            style={{
+                            color: "blue", // Màu xanh
+                            textDecoration: "underline", // Gạch chân
+                            cursor: "pointer", // Đổi hình con trỏ khi rê chuột vào
+                            }}
+                        >
+                            Create Account
+                        </small>
+                    </p>
                 </form>
             </div>
         </Layout>

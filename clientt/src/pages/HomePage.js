@@ -9,6 +9,13 @@ import { Prices } from '../components/Prices'
 import { useCart } from '../context/cart'
 import { toast } from 'react-hot-toast'
 import "../styles/Homepage.css";
+import ReactHtmlParser from 'react-html-parser';
+import { Swiper, SwiperSlide } from 'swiper/react';
+// import 'swiper/swiper-bundle.min.css'; // Import CSS for Swiper
+import 'swiper/css';
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+// import { Pagination, Navigation } from "swiper";
 
 const HomePage = () => {
   // const [auth, setAuth] =useAuth();
@@ -125,6 +132,37 @@ const HomePage = () => {
     }
   }
 
+  const addToCart = (product) => {
+    const productInCart = cart.find((item) => item.id === product.id);
+  
+    if (productInCart) {
+      // Sản phẩm đã tồn tại trong giỏ hàng, không thêm nữa
+      toast.error("This item is already in your cart");
+    } else {
+      // Sản phẩm chưa tồn tại trong giỏ hàng, thêm vào giỏ hàng với số lượng mặc định là 1
+      const productWithQuantity = { ...product, quantity: 1 }; // Set quantity to 1
+      setCart([...cart, productWithQuantity]);
+      localStorage.setItem("cart", JSON.stringify([...cart, productWithQuantity]));
+      toast.success("Item Added to Cart");
+    }
+  }
+  
+
+// const addToCart = (product) => {
+//   const productInCart = cart.find((item) => item.id === product.id);
+
+//   if (productInCart) {
+//       // Sản phẩm đã tồn tại trong giỏ hàng, không thêm nữa
+//       toast.error("This item is already in your cart");
+//   } else {
+//       // Sản phẩm chưa tồn tại trong giỏ hàng, thêm vào giỏ hàng với số lượng mặc định là 1
+//       const productWithQuantity = { ...product, quantity: 1 };
+//       setCart([...cart, productWithQuantity]);
+//       localStorage.setItem("cart", JSON.stringify([...cart, productWithQuantity]));
+//       toast.success("Item Added to Cart");
+//   }
+// }
+
   return (
     <Layout title={"All Products - Best offers"}>
       {/* banner image */}
@@ -134,6 +172,53 @@ const HomePage = () => {
         alt="bannerimage"
         width={"100%"}
       />
+
+      <h1 className="text-center mt-3">New Products</h1>
+      <div className="d-flex flex-wrap">
+        <Swiper
+          spaceBetween={18} // Khoảng cách giữa các slide
+          slidesPerView={4} // Số lượng slide hiển thị trên màn hình
+          loop={true}
+          pagination={{ clickable: true }}
+          navigation={true}
+          className="mySwiper"
+        >
+          {/* // Trong render, thêm sản phẩm vào giỏ hàng khi người dùng nhấn nút "ADD TO CART" */}
+    {products?.map((p) => (
+        <SwiperSlide key={p.id}>
+            <div className="card m-2" style={{ width: "18rem" }}>
+                <img
+                    src={`${process.env.REACT_APP_API}/api/product/product-photo/${p.id}?${Date.now()}`}
+                    alt={p.name}
+                    className="card-img-top"
+                />
+                <div className="card-body">
+                    <h5 className="card-title">{p.name.substring(0, 40)}...</h5>
+                    <p className="card-text">
+                      {p.price.toLocaleString("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </p>
+                    <button
+                        className="btn btn-info ms-1"
+                        onClick={() => navigate(`/product/${p.slug}`)}
+                    >
+                        More Details
+                    </button>
+                    <button
+                        className="btn btn-dark ms-1"
+                        onClick={() => addToCart(p)}
+                    >
+                        ADD TO CART
+                    </button>
+                </div>
+            </div>
+        </SwiperSlide>
+    ))}
+
+        </Swiper>
+      </div>
 
       <div className="container-fluid row mt-3 home-page">
         <div className="col-md-3 filters">
@@ -171,13 +256,21 @@ const HomePage = () => {
           <div className="d-flex flex-wrap">
             {products?.map((p) => (
                 <div className="card m-2" style={{ width:"18rem" }}>
-                    <img src={`${process.env.REACT_APP_API}/api/product/product-photo/${p.id}?${Date.now()}`} alt={p.name} className="card-img-top" />
+                    <a href={`/product/${p.slug}`}>
+                      <img src={`${process.env.REACT_APP_API}/api/product/product-photo/${p.id}?${Date.now()}`} alt={p.name} className="card-img-top" />
+                    </a>
                     <div className="card-body">
                         <h5 className="card-title">{p.name.substring(0, 40)}...</h5>
+                        {/* <p className="card-text">
+                          {ReactHtmlParser(p.description.substring(0, 30))}...
+                        </p> */}
+                        {/* <p className="card-text">  {p.price} VNĐ</p> */}
                         <p className="card-text">
-                          {p.description.substring(0, 30)}...
+                          {p.price.toLocaleString("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
                         </p>
-                        <p className="card-text"> $ {p.price}</p>
                         <button
                           className="btn btn-info ms-1"
                           onClick={() => navigate(`/product/${p.slug}`)}

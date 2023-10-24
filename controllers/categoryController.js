@@ -1,4 +1,4 @@
-import  { createCategory, createCategoryTable, findAllCategory, findById, findBySlug, findIdAndDelete, findIdAndUpdate, findNameCategory } from "../models/categoryModel.js";
+import  { countCategories, createCategory, createCategoryTable, findAllCategory, findById, findBySlug, findIdAndDelete, findIdAndUpdate, findNameCategory } from "../models/categoryModel.js";
 import slugify from "slugify";
 import { findEmailAndUpdate } from "../models/userModel.js";
 export const createCategoryController = async (req, res) => {
@@ -21,7 +21,8 @@ export const createCategoryController = async (req, res) => {
     // if (!slug) {
     //     return res.status(401).send({ message: "Slug is required" });
     //   }
-    const existingCategory = await findNameCategory({ name });
+    // const existingCategory = await findNameCategory({ name }); tự nhiên sai
+    const existingCategory = await findNameCategory( name );
     if (existingCategory) {
       return res.status(200).send({
         success: true,
@@ -35,7 +36,7 @@ export const createCategoryController = async (req, res) => {
       return res.status(201).send({
         success: true,
         message: "Category create successfully",
-        category,
+        // category,
       });
     } else {
       return res.status(500).send({
@@ -149,26 +150,6 @@ export const deleteCategoryCOntroller = async (req, res) => {
   };
   
 
-// export const deleteCategoryCOntroller = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     await findIdAndDelete(id);
-//     res.status(200).send({
-//       success: true,
-//       message: "Categry Deleted Successfully",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send({
-//       success: false,
-//       message: "error while deleting category",
-//       error,
-//     });
-//   }
-// };
-
-
-
 export const singleIdCategoryController = async (req, res) => {
   try {
     const category = await findById(req.params.id);
@@ -190,6 +171,26 @@ export const singleIdCategoryController = async (req, res) => {
       success: false,
       error,
       message: "Error While Getting Single Category",
+    });
+  }
+};
+
+
+//admin dashboard
+export const countCategoriesController = async (req, res) => {
+  try {
+    const count = await countCategories();
+    res.status(200).json({
+      success: true,
+      message: "Category count retrieved successfully",
+      categoryCount: count,
+    });
+  } catch (error) {
+    console.error("Error counting categories:", error);
+    res.status(500).json({
+      success: false,
+      error,
+      message: "Error counting categories",
     });
   }
 };

@@ -163,3 +163,18 @@ export const findById = async (id) => {
         return null;
     }
 };
+
+export const countCategories = async () => {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.execute("SELECT COUNT(*) as count FROM categories");
+
+    connection.release();
+
+    return rows[0].count || 0; // Trả về số lượng category
+  } catch (error) {
+    console.error("Error counting categories:", error);
+    return 0;
+  }
+};

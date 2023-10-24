@@ -5,7 +5,7 @@ import {Helmet} from "react-helmet"
 import {Toaster} from "react-hot-toast";
 
 
-const Layout = ({ children, title, description, keywords, author }) => {
+const Layout2 = ({ children, title, description, keywords, author }) => {
   const toastOptions = {
     duration: 1500, // Thời gian tồn tại của thông báo (đơn vị: ms)
     
@@ -27,16 +27,16 @@ const Layout = ({ children, title, description, keywords, author }) => {
             {children}
             
         </main>
-        <Footer />
+        {/* <Footer /> */}
     </div>
   );
 };
 
-Layout.defaultProps = {
+Layout2.defaultProps = {
     title: "Ecommerce app - shope now",
     description: "mern stack project",
     keywords: "react, node, xampp, mern",
     author: "Ngoc",
 };
 
-export default Layout
+export default Layout2

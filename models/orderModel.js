@@ -82,31 +82,3 @@ export const createOrder = async (products, buyerId, paymentDetails) => {
 };
 
 
-// import { DataTypes } from 'sequelize';
-// import sequelize from "../config/connection";
-
-
-// const Order = sequelize.define('Order', {
-//   status: {
-//     type: DataTypes.ENUM('Not Process', 'Processing', 'Shipped', 'Delivered', 'Canceled'),
-//     defaultValue: 'Not Process'
-//   },
-//   payment: {
-//     type: DataTypes.JSON
-//   }
-// }, {
-//   timestamps: true
-// });
-
-// // Define associations
-// Order.belongsTo(sequelize.models.User, { as: 'buyer' }); // Assuming you have a User model
-
-// sequelize.sync({ alter: true }) // You can use 'alter' to modify tables if needed
-//   .then(() => {
-//     console.log('Order table created successfully');
-//   })
-//   .catch((err) => {
-//     console.error('Unable to create Order table:', err);
-//   });
-
-// export default Order;

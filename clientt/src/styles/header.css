@@ -1,0 +1,61 @@
+/* 
+.header {
+  background-color: #3498db;
+  color: #fff;
+  padding: 15px 0;
+  position: fixed;
+}
+
+.nav-link {
+  color: black !important;
+  margin-right: 15px;
+}
+
+.nav-link:hover {
+  color: #ffcc00 !important;
+} */
+
+/* Thêm CSS cho header */
+.navbar {
+  position: sticky; /* Đặt header thành vị trí sticky */
+  top: 0; /* Đặt khoảng cách từ đỉnh trang web là 0px */
+  background-color: #ffffff; /* Màu nền của header */
+  z-index: 100; /* Đảm bảo header hiển thị trên tất cả các phần tử khác */
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1); /* Hiển thị một bóng nhẹ dưới header */
+  transition: top 0.3s; /* Thêm hiệu ứng chuyển động mượt mà */
+}
+
+/* Thêm CSS cho logo hoặc tên trang */
+.navbar-brand {
+  font-size: 24px; /* Kích thước font */
+  padding: 10px; /* Khoảng cách bên trong logo hoặc tên trang */
+}
+
+/* Thêm CSS cho các mục trong header */
+.navbar-nav .nav-link {
+  margin: 0 10px; /* Khoảng cách giữa các mục */
+  color: #333; /* Màu chữ */
+  font-weight: 600; /* Độ đậm của chữ */
+}
+
+/* Hiệu ứng khi header bám vào đỉnh trang */
+.navbar.sticky {
+  top: -60px; /* Đẩy header lên trên khi bám vào đỉnh trang */
+}
+
+/* Thêm CSS cho mục "Cart" */
+.nav-item.cart-item {
+  display: flex; /* Hiển thị theo kiểu flexbox để căn giữa các phần tử bên trong */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+/* Thêm CSS cho biểu tượng Cart */
+.nav-item.cart-item .ant-badge {
+  margin-right: 10px; /* Khoảng cách giữa biểu tượng và văn bản */
+}
+
+/* Thêm CSS cho văn bản "Cart" */
+.nav-item.cart-item .nav-link {
+  font-size: 16px; /* Độ lớn của chữ */
+  font-weight: 600; /* Độ đậm của chữ */
+}

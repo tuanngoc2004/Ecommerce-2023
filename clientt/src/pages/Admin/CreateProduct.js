@@ -2,9 +2,12 @@ import React, {useState, useEffect} from 'react'
 import toast from "react-hot-toast";
 import axios from "axios";
 import AdminMenu from '../../components/Layout/AdminMenu'
-import Layout from '../../components/Layout/Layout'
+// import Layout from '../../components/Layout/Layout'
 import {Select} from 'antd'
 import { useNavigate } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import Layout2 from '../../components/Layout/Layout2';
 const {Option} = Select
 
 const CreateProduct = () => {
@@ -62,8 +65,14 @@ const handleCreate = async (e) => {
             toast.error(response.data.message);
         }
     } catch (error) {
-        console.log(error);
-        toast.error("Something went wrong");
+      if (error.response) {
+        // Nếu có phản hồi từ máy chủ
+        toast.error(error.response.data.message);
+      } else {
+          // Nếu có lỗi mà không có phản hồi từ máy chủ
+          console.log(error);
+          toast.error("Something went wrong");
+      }
     }
 };
 //   const handleCreate = async (e) => {
@@ -94,7 +103,7 @@ const handleCreate = async (e) => {
 
 
   return (
-    <Layout title={"Dashboard - Create Category"}>
+    <Layout2 title={"Dashboard - Create Category"}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -148,12 +157,20 @@ const handleCreate = async (e) => {
                 />
               </div>
               <div className="mb-3">
-                <textarea
+                {/* <textarea
                   type="text"
                   value={description}
                   placeholder="write a description"
                   className="form-control"
                   onChange={(e) => setDescription(e.target.value)}
+                /> */}
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={description}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    setDescription(data);
+                  }}
                 />
               </div>
 
@@ -199,7 +216,7 @@ const handleCreate = async (e) => {
           </div>
         </div>
       </div>
-    </Layout>
+    </Layout2>
   )
 }
 

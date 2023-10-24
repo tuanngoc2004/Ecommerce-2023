@@ -2,9 +2,12 @@ import React, {useState, useEffect} from 'react'
 import toast from "react-hot-toast";
 import axios from "axios";
 import AdminMenu from '../../components/Layout/AdminMenu'
-import Layout from '../../components/Layout/Layout'
+import Layout2 from '../../components/Layout/Layout2';
 import {Select} from 'antd'
 import { useNavigate, useParams } from "react-router-dom";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 const {Option} = Select
 
 const UpdateProduct = () => {
@@ -37,6 +40,7 @@ const UpdateProduct = () => {
             console.log(error);
         }
     };
+
     useEffect(() => {
         getSingleProduct(); 
         //eslint-disable-next-line  
@@ -63,6 +67,7 @@ const UpdateProduct = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault();
+        console.log(description);
         try {
             const productData = new FormData();
             productData.append("name", name);
@@ -108,7 +113,7 @@ const UpdateProduct = () => {
 
 
   return (
-    <Layout title={"Dashboard - Create Category"}>
+    <Layout2 title={"Dashboard - Create Category"}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -146,7 +151,7 @@ const UpdateProduct = () => {
                     </label>
                 </div>
                 <div className="mb-3">
-                {photo ? (
+                {/* {photo ? (
                   <div className="text-center">
                     <img
                       src={URL.createObjectURL(photo)}
@@ -164,7 +169,29 @@ const UpdateProduct = () => {
                         className="img img-responsive"
                         />
                     </div>
-                )}
+                )} */}
+
+                  {photo ? (
+                    <div className="text-center">
+                      <img
+                        src={URL.createObjectURL(photo)}
+                        alt="product_photo"
+                        height={"200px"}
+                        className="img img-responsive"
+                      />
+                    </div>
+                  ) : (
+                    id ? (
+                      <div className="text-center">
+                        <img
+                          src={`${process.env.REACT_APP_API}/api/product/product-photo/${id}?${Date.now()}`}
+                          alt="product_photo"
+                          height={"200px"}
+                          className="img img-responsive"
+                        />
+                      </div>
+                    ) : null
+                  )}
                 </div>
                 <div className="mb-3">
                 <input
@@ -176,12 +203,13 @@ const UpdateProduct = () => {
                 />
               </div>
               <div className="mb-3">
-                <textarea
-                  type="text"
-                  value={description}
-                  placeholder="write a description"
-                  className="form-control"
-                  onChange={(e) => setDescription(e.target.value)}
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={description}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    setDescription(data);
+                  }}
                 />
               </div>
 
@@ -233,7 +261,7 @@ const UpdateProduct = () => {
           </div>
         </div>
       </div>
-    </Layout>
+    </Layout2>
   )
 }
 

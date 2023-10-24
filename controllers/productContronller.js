@@ -1,5 +1,6 @@
 // import {Order} from "../models/orderModel";
 import { 
+  countProducts,
   createProduct, 
   createProductTable, 
   findByCategory, 
@@ -11,9 +12,12 @@ import {
   findRelatedProducts, 
   getAllProducts, 
   getAllProductsPerPage, 
+  getAllProductsPerPage2, 
   getOneProduct, 
   getProductCount,
-  searchProduct} from "../models/productModel.js";
+  getProductCount2,
+  searchProduct,
+  searchProductAdmin} from "../models/productModel.js";
   
 // import fs from 'fs';
 import slugify from "slugify";
@@ -65,6 +69,7 @@ export const createProductController = async (req, res) => {
                     message: "Error while parsing form data",
                 });
             }
+
             const arrayOfFiles = Object.values(files); // Convert files object to array
 
             const fileNames = Object.keys(files).map(fieldName => {
@@ -74,10 +79,37 @@ export const createProductController = async (req, res) => {
             });
 
             const { name, description, price, category_id, quantity, shipping } = fields;
-            const photo = files.photo; // Assuming 'photo' is the field name
+              // Kiểm tra các trường bắt buộc không được để trống
+            if (!name || !description || !price || !category_id || !quantity || !shipping) {
+                return res.status(400).send({
+                    success: false,
+                    message: "All fields are required",
+                });
+            }
 
-            // Validation
-            // ...
+            // Kiểm tra giá phải lớn hơn hoặc bằng 0
+            if (parseFloat(price) < 0) {
+                return res.status(400).send({
+                    success: false,
+                    message: "Price must be greater than or equal to 0",
+                });
+            }
+
+            if (isNaN(price) || price < 0) {
+              return res.status(400).send({
+                  success: false,
+                  message: "Price must be a valid number greater than or equal to 0",
+              });
+          }
+
+            if (parseFloat(quantity) < 0) {
+              return res.status(400).send({
+                  success: false,
+                  message: "Quantity must be greater than or equal to 0",
+              });
+          }
+
+            const photo = files.photo; // Assuming 'photo' is the field name
 
             const slug = slugify(name);
             const imagePath = photo.path.split("\\").pop(); // Use the filename without the "uploads\" prefix
@@ -203,8 +235,6 @@ export const productPhotoController = async (req, res) => {
 
 
   
-
-
 //delete controller
 
 
@@ -265,7 +295,7 @@ export const updateProductController = async (req, res) => {
 
       const updatedFields = {
         ...fields,
-        slug: slugify(name),
+        slug: slugify(name, { lower: true }),
       };
 
       let updatedPhotoPath = null;
@@ -323,30 +353,6 @@ export const updateProductController = async (req, res) => {
 
 
 //filters
-// export const productFiltersController = async (req, res) => {
-//   try {
-//     const {checked, radio} = req.body;
-//     let args = {};
-//     if(checked.length > 0) args.category = checked;
-//     if(radio.length > 0) args.price = {$gte: radio[0], $lte:radio[1]};
-//     const products = await getAllProducts(args);
-//     res.status(200).send({
-//       success: true,
-//       products,
-//     });
-//   }catch(error) {
-//     console.log(error);
-//     res.status(400).send({
-//       success: false,
-//       message: 'Error while filtering product',
-//       error
-//     })
-//   }
-// }
-
-
-
-
 
 export const productFiltersController = async (req, res) => {
   try {
@@ -370,22 +376,6 @@ export const productFiltersController = async (req, res) => {
 
 
 // product count
-// export const productCountController = async (req, res) => {
-//   try{
-//     const total = await getAllProducts({}).estimatedDocumentCount();
-//     res.status(200).send({
-//       success: true,
-//       total,
-//     })
-//   }catch(error){
-//     console.log(error);
-//     res.status(404).send({
-//       message: 'Error in product count',
-//       error,
-//       success: false
-//     })
-//   }
-// }
 
 export const productCountController = async (req, res) => {
   try{
@@ -427,29 +417,6 @@ export const productListController = async (req, res) => {
   }
 };
 
-// export const productListController = async (req, res) => {
-//   try{
-//     const perPage = 2;
-//     const page = req.params.page ? req.params.page : 1;
-//     const products = await productModel
-//       .find({})
-//       .select("-photo")
-//       .skip((page - 1) * perPage)
-//       .limit(perPage)
-//       .sort({ createdAt: -1 });
-//     res.status(200).send({
-//       success: true,
-//       products,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(400).send({
-//       success: false,
-//       message: "error in per page ctrl",
-//       error,
-//     });
-//   }
-// }
 
 
 export const searchProductController = async (req, res) => {
@@ -474,33 +441,6 @@ export const searchProductController = async (req, res) => {
 
 
 // similar products
-// export const realtedProductController = async (req, res) => {
-//   try {
-//     const { pid, cid } = req.params;
-//     const products = await productModel
-//       .find({
-//         category: cid,
-//         _id: { $ne: pid },
-//       })
-//       .select("-photo")
-//       .limit(3)
-//       .populate("category");
-//     res.status(200).send({
-//       success: true,
-//       products,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(400).send({
-//       success: false,
-//       message: "error while geting related product",
-//       error,
-//     });
-//   }
-// };
-
-
-
 
 export const realtedProductController = async (req, res) => {
   try {
@@ -524,30 +464,11 @@ export const realtedProductController = async (req, res) => {
 };
 
 // get prdocyst by catgory
-// export const productCategoryController = async (req, res) => {
-//   try {
-//     const category = await categoryModel.findOne({ slug: req.params.slug });
-//     const products = await productModel.find({ category }).populate("category");
-//     res.status(200).send({
-//       success: true,
-//       category,
-//       products,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(400).send({
-//       success: false,
-//       error,
-//       message: "Error While Getting products",
-//     });
-//   }
-// };
 
 export const productCategoryController = async (req, res) => {
   try {
     const { slug } = req.params;
 
-    // Find the category by slug using productModel
     const category = await findCategoryBySlug(slug);
 
     if (!category) {
@@ -557,7 +478,6 @@ export const productCategoryController = async (req, res) => {
       });
     }
 
-    // Find products by category using productModel
     const products = await findProductsByCategory(category.id);
 
     res.status(200).send({
@@ -590,38 +510,6 @@ export const braintreeTokenController = async (req, res) => {
   }
 }
 
-// export const brainTreePaymentController = async (req, res) => {
-//   try {
-//     const { nonce, cart } = req.body;
-//     let total = 0;
-//     cart.map((i) => {
-//       total += i.price;
-//     });
-//     let newTransaction = gateway.transaction.sale(
-//       {
-//         amount: total,
-//         paymentMethodNonce: nonce,
-//         options: {
-//           submitForSettlement: true,
-//         },
-//       },
-//       function (error, result) {
-//         if (result) {
-//           const order = new Order({
-//             products: cart,
-//             payment: result,
-//             buyer: req.user._id,
-//           }).save();
-//           res.json({ ok: true });
-//         } else {
-//           res.status(500).send(error);
-//         }
-//       }
-//     );
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 export const brainTreePaymentController = async (req, res) => {
   createOrderTable().then((success) => {
@@ -658,3 +546,87 @@ export const brainTreePaymentController = async (req, res) => {
 };
 
 
+export const countProductsController = async (req, res) => {
+  try {
+    const count = await countProducts();
+    res.status(200).json({
+      success: true,
+      message: "Product count retrieved successfully",
+      productCount: count,
+    });
+  } catch (error) {
+    console.error("Error counting products:", error);
+    res.status(500).json({
+      success: false,
+      error,
+      message: "Error counting products",
+    });
+  }
+};
+
+export const productList2Controller = async (req, res) => {
+  try {
+    const perPage = 6; // Số lượng sản phẩm trên mỗi trang
+    const page = req.params.page ? parseInt(req.params.page) : 1; // Trang hiện tại
+
+    const products = await getAllProductsPerPage2(perPage, page);
+
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error in product list controller",
+      error,
+    });
+  }
+};
+
+export const countProducts2Controller = async (req, res) => {
+  try {
+    const count = await getProductCount2();
+    res.status(200).json({
+      success: true,
+      message: "Product count retrieved successfully",
+      productCount: count,
+    });
+  } catch (error) {
+    console.error("Error counting products:", error);
+    res.status(500).json({
+      success: false,
+      error,
+      message: "Error counting products",
+    });
+  }
+};
+
+
+export const searchProductAdminController = async (req, res) => {
+  try {
+    const { keyword } = req.query; // Đọc từ khóa tìm kiếm từ truy vấn
+
+    if (!keyword) {
+      return res.status(400).send({
+        success: false,
+        message: "Keyword is required for search",
+      });
+    }
+
+    const products = await searchProductAdmin(keyword);
+
+    res.status(200).send({
+      success: true,
+      products,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in search product",
+      error,
+    });
+  }
+};

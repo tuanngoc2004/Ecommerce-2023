@@ -3,6 +3,7 @@ import { isAdmin, requireSignIn } from "./../middlewares/authMiddleware.js";
 import {
   
     categoryControlller,
+  countCategoriesController,
   createCategoryController,
   deleteCategoryCOntroller,
   singleCategoryController,
@@ -46,5 +47,8 @@ router.delete(
   isAdmin,
   deleteCategoryCOntroller
 );
+
+//admin dashboard
+router.get("/count-category", countCategoriesController);
 
 export default router;
