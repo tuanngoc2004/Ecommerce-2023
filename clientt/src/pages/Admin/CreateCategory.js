@@ -118,6 +118,7 @@ const CreateCategory = () => {
                                 <td>
                                     <button 
                                         className="btn btn-primary ms-2" 
+                                        style={{ width: '70px', height: '39px', textAlign: 'center', marginBottom: '10px' }}
                                         onClick={() => {
                                             setVisible(true); 
                                             setUpdatedName(c.name)
@@ -126,7 +127,10 @@ const CreateCategory = () => {
                                     >
                                         Edit
                                     </button>
-                                    <button className="btn btn-danger ms-2" onClick={() => {handleDelete(c.id)}}>
+                                    <button className="btn btn-danger ms-2" 
+                                        style={{ marginTop: '11px' }}
+                                        onClick={() => {handleDelete(c.id)}}
+                                    >
                                         Delete
                                     </button>
                                 </td>

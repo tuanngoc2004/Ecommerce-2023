@@ -5,7 +5,9 @@ import axios from 'axios';
 import { Select } from 'antd';
 import moment from 'moment';
 import Layout2 from '../../components/Layout/Layout2';
+import '../../styles/Orders.css';
 const { Option } = Select;
+
 
 const AdminOrders = () => {
   const [status, setStatus] = useState([

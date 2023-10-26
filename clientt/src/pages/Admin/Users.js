@@ -97,7 +97,7 @@ const Users = () => {
                             </select>
                           </td>
                           <td>
-                          <button className='btn btn-primary' onClick={() => handleDetailsClick(user.id)}>Details</button>
+                            <button className='btn btn-primary' style={{ height: '38px', marginBottom: '20px' }} onClick={() => handleDetailsClick(user.id)}>Details</button>
                             <button className='btn btn-warning ms-2' onClick={() => handleEditStatus(user.id)}>Edit</button>
                           </td>
                         </tr>
