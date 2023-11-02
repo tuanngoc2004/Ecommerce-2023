@@ -4,7 +4,7 @@ import { useAuth } from '../../context/auth';
 import axios from 'axios';
 import { Select } from 'antd';
 import moment from 'moment';
-import Layout2 from '../../components/Layout/LayoutAdmin';
+import LayoutAdmin from '../../components/Layout/LayoutAdmin';
 import './AdminOrders.scss';
 import { getOrders, updateOrderStatus } from '../Service/AdminOrderService';
 import toast from 'react-hot-toast';
@@ -55,7 +55,7 @@ const AdminOrders = () => {
   };
 
   return (
-    <Layout2 title={"All Orders Data"}>
+    <LayoutAdmin title={"All Orders Data"}>
       <div className="row dashboard">
         <div className="col-md-3">
           <AdminMenu />
@@ -131,7 +131,7 @@ const AdminOrders = () => {
           })}
         </div>
       </div>
-    </Layout2>
+    </LayoutAdmin>
   );
 };
 

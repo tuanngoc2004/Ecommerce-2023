@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import toast from "react-hot-toast";
 import axios from "axios";
 import AdminMenu from '../../components/Layout/AdminMenu'
-import Layout2 from '../../components/Layout/LayoutAdmin';
+import LayoutAdmin from '../../components/Layout/LayoutAdmin';
 import {Select} from 'antd'
 import { useNavigate, useParams } from "react-router-dom";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
@@ -113,7 +113,7 @@ const UpdateProduct = () => {
 
 
   return (
-    <Layout2 title={"Dashboard - Create Category"}>
+    <LayoutAdmin title={"Dashboard - Create Category"}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -261,7 +261,7 @@ const UpdateProduct = () => {
           </div>
         </div>
       </div>
-    </Layout2>
+    </LayoutAdmin>
   )
 }
 

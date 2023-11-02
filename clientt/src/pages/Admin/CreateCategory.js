@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import CategoryForm from '../../components/Form/CategoryForm';
 import { Modal } from "antd";
-import Layout2 from '../../components/Layout/LayoutAdmin';
+import LayoutAdmin from '../../components/Layout/LayoutAdmin';
 
 
 const CreateCategory = () => {
@@ -93,7 +93,7 @@ const CreateCategory = () => {
     
 
   return (
-    <Layout2 title={"Dashboard - Create Category"}>
+    <LayoutAdmin title={"Dashboard - Create Category"}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -151,7 +151,7 @@ const CreateCategory = () => {
           </div>
         </div>
       </div>
-    </Layout2>
+    </LayoutAdmin>
   )
 }
 

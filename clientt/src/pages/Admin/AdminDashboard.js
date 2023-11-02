@@ -3,8 +3,8 @@ import AdminMenu from '../../components/Layout/AdminMenu';
 import { useAuth } from '../../context/auth';
 import './AdminDashboard.scss'
 import Chart from 'chart.js/auto';
-import Layout2 from '../../components/Layout/LayoutAdmin';
 import { fetchCategoryCount, fetchProductCount } from '../Service/AdminDashboardService';
+import LayoutAdmin from '../../components/Layout/LayoutAdmin';
 
 
 const AdminDashboard = () => {
@@ -116,7 +116,7 @@ const AdminDashboard = () => {
   };
   
   return (
-    <Layout2>
+    <LayoutAdmin>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -159,7 +159,7 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-    </Layout2>
+    </LayoutAdmin>
   );
 };
 

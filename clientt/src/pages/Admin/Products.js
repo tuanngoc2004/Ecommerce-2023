@@ -4,7 +4,7 @@ import AdminMenu from '../../components/Layout/AdminMenu';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Layout2 from '../../components/Layout/LayoutAdmin';
+import LayoutAdmin from '../../components/Layout/LayoutAdmin';
 import './Products.scss'
 
 const Products = () => {
@@ -79,7 +79,7 @@ const Products = () => {
   }, [currentPage]);
 
   return (
-    <Layout2>
+    <LayoutAdmin>
       <div className="row">
         <div className="col md-3">
           <AdminMenu />
@@ -148,7 +148,7 @@ const Products = () => {
             </div>
         </div>
       </div>
-    </Layout2>
+    </LayoutAdmin>
   );
 };
 

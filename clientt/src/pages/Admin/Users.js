@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Layout2 from '../../components/Layout/LayoutAdmin';
+import LayoutAdmin from '../../components/Layout/LayoutAdmin';
 import AdminMenu from '../../components/Layout/AdminMenu'
 import axios from 'axios';
 import UserDetail from './UserDetails';
@@ -50,7 +50,7 @@ const Users = () => {
     setSelectedUserId(userId);
   };
   return (
-    <Layout2 title={"Dashboard - All Users"}>
+    <LayoutAdmin title={"Dashboard - All Users"}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -99,7 +99,7 @@ const Users = () => {
                             </select>
                           </td>
                           <td>
-                            <button className='btn btn-primary' style={{ height: '38px', marginBottom: '20px' }} onClick={() => handleDetailsClick(user.id)}>Details</button>
+                            {/* <button className='btn btn-primary' style={{ height: '38px', marginBottom: '20px' }} onClick={() => handleDetailsClick(user.id)}>Details</button> */}
                             <button className='btn btn-warning ms-2' onClick={() => handleEditStatus(user.id)}>Edit</button>
                           </td>
                         </tr>
@@ -114,7 +114,7 @@ const Users = () => {
           </div>
         </div>
       </div>
-    </Layout2>
+    </LayoutAdmin>
   )
 }
 
