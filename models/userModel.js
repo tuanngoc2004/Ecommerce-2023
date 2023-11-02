@@ -249,13 +249,14 @@ export const updateStatus = async (orderId, status) => {
 };
 
 
-// Function to get all users
+// Function to get all users of admin
 export const getAllUsers = async () => {
   try {
     const connection = await pool.getConnection();
 
     const [rows] = await connection.execute(
       'SELECT * FROM users WHERE role_as = 0 OR role_as = 3'
+      // 'SELECT * FROM users WHERE role_as = 0'
     );
 
     connection.release();
@@ -266,6 +267,25 @@ export const getAllUsers = async () => {
     return null;
   }
 };
+
+// Function to get all users bloked of admin
+// export const getAllUsersBloked = async () => {
+//   try {
+//     const connection = await pool.getConnection();
+
+//     const [rows] = await connection.execute(
+//       'SELECT * FROM users WHERE role_as = 0 OR role_as = 3'
+//       // 'SELECT * FROM users WHERE role_as = 3'
+//     );
+
+//     connection.release();
+
+//     return rows;
+//   } catch (error) {
+//     console.error("Error getting all users:", error);
+//     return null;
+//   }
+// };
 
 // Function to edit user status
 export const editStatus = async (userId, role_as) => {
@@ -285,6 +305,42 @@ export const editStatus = async (userId, role_as) => {
     return false;
   }
 };
+
+// export const editStatus = async (userId) => {
+//   try {
+//     const connection = await pool.getConnection();
+
+//     const [result] = await connection.execute(
+//       'UPDATE users SET role_as = 3 WHERE id = ?',
+//       [userId]
+//     );
+
+//     connection.release();
+
+//     return result.affectedRows > 0;
+//   } catch (error) {
+//     console.error("Error updating user status:", error);
+//     return false;
+//   }
+// };
+
+// export const editStatusToOpen = async (userId) => {
+//   try {
+//     const connection = await pool.getConnection();
+
+//     const [result] = await connection.execute(
+//       'UPDATE users SET role_as = 0 WHERE id = ?',
+//       [userId]
+//     );
+
+//     connection.release();
+
+//     return result.affectedRows > 0;
+//   } catch (error) {
+//     console.error("Error updating user status:", error);
+//     return false;
+//   }
+// };
 
 
 // userModel.js

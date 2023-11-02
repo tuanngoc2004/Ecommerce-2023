@@ -4,8 +4,8 @@ import AdminMenu from '../../components/Layout/AdminMenu';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Layout2 from '../../components/Layout/Layout2';
-import '../../styles/Products.css'
+import Layout2 from '../../components/Layout/LayoutAdmin';
+import './Products.scss'
 
 const Products = () => {
   const [products, setProducts] = useState([]);

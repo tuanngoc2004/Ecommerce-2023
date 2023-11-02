@@ -1,0 +1,59 @@
+/* CartStyles.scss */
+
+.cart-page {
+  margin-top: 64px;
+  
+  h1 {
+    padding: 15px !important;
+    font-family: "roboto", sans-serif;
+    font-weight: normal;
+    background-color: rgba(0, 0, 255, 0.072) !important;
+    
+    p {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+  }
+
+  .card {
+    padding: 5px !important;
+    height: 150px !important;
+    margin-bottom: 5px !important;
+    
+    .cart-remove-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  
+  .cart-summary {
+    text-align: center;
+    /* margin-top: -140px !important; */
+    
+    /* CSS for + and - quantity buttons */
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      margin-right: 40px;
+      
+      button {
+        padding: 5px 10px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+      
+      span {
+        font-size: 16px;
+        margin: 0 10px;
+      }
+    }
+  }
+}

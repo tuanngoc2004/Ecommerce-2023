@@ -5,7 +5,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import CategoryForm from '../../components/Form/CategoryForm';
 import { Modal } from "antd";
-import Layout2 from '../../components/Layout/Layout2';
+import Layout2 from '../../components/Layout/LayoutAdmin';
+
 
 const CreateCategory = () => {
     const [categories, setCategories] = useState([]);
@@ -89,6 +90,7 @@ const CreateCategory = () => {
             toast.error('Something went wrong');
         }
     }
+    
 
   return (
     <Layout2 title={"Dashboard - Create Category"}>

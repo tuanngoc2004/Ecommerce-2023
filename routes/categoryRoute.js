@@ -1,8 +1,7 @@
 import express from "express";
 import { isAdmin, requireSignIn } from "./../middlewares/authMiddleware.js";
 import {
-  
-    categoryControlller,
+  categoryControlller,
   countCategoriesController,
   createCategoryController,
   deleteCategoryCOntroller,

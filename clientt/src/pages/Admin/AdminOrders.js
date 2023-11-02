@@ -4,8 +4,10 @@ import { useAuth } from '../../context/auth';
 import axios from 'axios';
 import { Select } from 'antd';
 import moment from 'moment';
-import Layout2 from '../../components/Layout/Layout2';
-import '../../styles/Orders.css';
+import Layout2 from '../../components/Layout/LayoutAdmin';
+import './AdminOrders.scss';
+import { getOrders, updateOrderStatus } from '../Service/AdminOrderService';
+import toast from 'react-hot-toast';
 const { Option } = Select;
 
 
@@ -21,9 +23,10 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [auth, setAuth] = useAuth();
 
-  const getOrders = async () => {
+  const fetchOrders  = async () => {
     try {
-      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/all-orders?${Date.now()}`);
+      // const { data } = await axios.get(`${process.env.REACT_APP_API}/api/all-orders?${Date.now()}`);
+      const data = await getOrders(); // Gọi hàm từ service
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -31,15 +34,21 @@ const AdminOrders = () => {
   };
 
   useEffect(() => {
-    if (auth?.token) getOrders();
+    if (auth?.token) fetchOrders();
   }, [auth?.token]);
 
   const handleChange = async (orderId, value) => {
     try {
-      const { data } = await axios.put(`${process.env.REACT_APP_API}/api/order-status/${orderId}`, {
-        status: value,
-      });
-      getOrders();
+      // const { data } = await axios.put(`${process.env.REACT_APP_API}/api/order-status/${orderId}`, {
+      //   status: value,
+      // });
+      const data = await updateOrderStatus(orderId, value); // Gọi hàm từ service
+      if (data.success) {
+        fetchOrders();
+        toast.success(data.message); 
+      } else {
+        toast.error(data.message); 
+      }
     } catch (error) {
       console.log(error);
     }
@@ -92,7 +101,8 @@ const AdminOrders = () => {
                       <td>{moment(o?.created_at).fromNow()}</td>
                       <td>{o?.payment.success ? "Failed" : "Success"}</td>
                       <td>{totalQuantity}</td>
-                      <td>${totalPrice.toFixed(2)}</td>
+                      {/* <td>${totalPrice.toFixed(2)}</td> */}
+                      <td>{totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
                     </tr>
                   </tbody>
                 </table>

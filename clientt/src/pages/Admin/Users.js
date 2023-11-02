@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Layout2 from '../../components/Layout/Layout2';
+import Layout2 from '../../components/Layout/LayoutAdmin';
 import AdminMenu from '../../components/Layout/AdminMenu'
 import axios from 'axios';
 import UserDetail from './UserDetails';
+import toast from 'react-hot-toast';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -35,6 +36,7 @@ const Users = () => {
             ...editedStatus,
             [userId]: role_as, // Update the local editedStatus object
           });
+          toast.success("Updated");
         } else {
           console.error('Error updating user status:', response.data.message);
         }

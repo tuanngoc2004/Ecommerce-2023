@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useRef  } from 'react';
-// import Layout from '../../components/Layout/Layout';
 import AdminMenu from '../../components/Layout/AdminMenu';
 import { useAuth } from '../../context/auth';
-import axios from 'axios';
-import toast from 'react-hot-toast';
-import '../../styles/AdminDashboard.css'
+import './AdminDashboard.scss'
 import Chart from 'chart.js/auto';
-import Layout2 from '../../components/Layout/Layout2';
+import Layout2 from '../../components/Layout/LayoutAdmin';
+import { fetchCategoryCount, fetchProductCount } from '../Service/AdminDashboardService';
 
 
 const AdminDashboard = () => {
@@ -16,55 +14,90 @@ const AdminDashboard = () => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
-  const fetchDataCategoryCount = async () => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_API}/api/category/count-category`);
-      if (response.data?.success) {
-        setCategoryCount(response.data.categoryCount); 
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error('Something went wrong in getting category count');
-    }
-  };
+  // const fetchDataCategoryCount = async () => {
+  //   try {
+  //     const response = await axios.get(`${process.env.REACT_APP_API}/api/category/count-category`);
+  //     if (response.data?.success) {
+  //       setCategoryCount(response.data.categoryCount); 
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast.error('Something went wrong in getting category count');
+  //   }
+  // };
 
-  const fetchDataProductCount = async () => {
-    try {
-      const response = await axios.get(`${process.env.REACT_APP_API}/api/product/count-product`);
-      if (response.data?.success) {
-        setProductCount(response.data.productCount); // Thay đổi để lấy categoryCount từ response
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error('Something went wrong in getting category count');
-    }
-  };
+  // const fetchDataProductCount = async () => {
+  //   try {
+  //     const response = await axios.get(`${process.env.REACT_APP_API}/api/product/count-product`);
+  //     if (response.data?.success) {
+  //       setProductCount(response.data.productCount); // Thay đổi để lấy categoryCount từ response
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     toast.error('Something went wrong in getting category count');
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchDataCategoryCount(); 
+  //   fetchDataProductCount();
+
+  //   if (chartRef.current) {
+  //     // Check if a chart instance already exists and destroy it
+  //     if (chartInstance.current) {
+  //       chartInstance.current.destroy();
+  //     }
+
+  //     const ctx = chartRef.current.getContext('2d');
+  //     chartInstance.current = new Chart(ctx, {
+  //       type: 'bar',
+  //       data: data,
+  //       options: {
+  //         responsive: true,
+  //         scales: {
+  //           y: {
+  //             beginAtZero: true,
+  //           },
+  //         },
+  //       },
+  //     });
+  //   }
+    
+  // }, [categoryCount, productCount]);
 
   useEffect(() => {
-    fetchDataCategoryCount(); 
-    fetchDataProductCount();
+    const fetchData = async () => {
+      try {
+        const categoryCount = await fetchCategoryCount();
+        const productCount = await fetchProductCount();
+        setCategoryCount(categoryCount);
+        setProductCount(productCount);
 
-    if (chartRef.current) {
-      // Check if a chart instance already exists and destroy it
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
+        if (chartRef.current) {
+          if (chartInstance.current) {
+            chartInstance.current.destroy();
+          }
 
-      const ctx = chartRef.current.getContext('2d');
-      chartInstance.current = new Chart(ctx, {
-        type: 'bar',
-        data: data,
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
+          const ctx = chartRef.current.getContext('2d');
+          chartInstance.current = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
             },
-          },
-        },
-      });
-    }
-    
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, [categoryCount, productCount]);
 
   const data = {

@@ -1,0 +1,28 @@
+/* Orders.scss */
+
+.border {
+    border: 1px solid white;
+}
+
+.table {
+    background-color: #f8f9fa; /* Màu xám nhạt */
+
+    th {
+        background-color: #343a40; /* Màu xám đậm */
+        color: white;
+    }
+
+    tbody {
+        tr:nth-child(odd) {
+            background-color: #e9ecef; /* Màu xám nhạt */
+        }
+
+        tr:nth-child(even) {
+            background-color: #ffffff; /* Màu trắng */
+        }
+    }
+}
+
+.card-img-top {
+    border: 1px solid #dee2e6; /* Màu xám nhạt */
+}

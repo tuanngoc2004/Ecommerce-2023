@@ -290,8 +290,34 @@ export const updateProductController = async (req, res) => {
       const { name, description, price, category_id, quantity, shipping } = fields;
       const photo = files.photo; // Assuming 'photo' is the field name
 
-      // Validation
-      // ...
+      if (!name || !description || !price || !category_id || !quantity || !shipping) {
+        return res.status(400).send({
+          success: false,
+          message: "All fields are required",
+        });
+      }
+
+      // Kiểm tra giá phải lớn hơn hoặc bằng 0
+      if (parseFloat(price) < 0) {
+        return res.status(400).send({
+            success: false,
+            message: "Price must be greater than or equal to 0",
+        });
+      }
+
+      if (isNaN(price) || price < 0) {
+        return res.status(400).send({
+          success: false,
+          message: "Price must be a valid number greater than or equal to 0",
+        });
+      }
+
+      if (parseFloat(quantity) < 0) {
+        return res.status(400).send({
+          success: false,
+          message: "Quantity must be greater than or equal to 0",
+        });
+      }
 
       const updatedFields = {
         ...fields,

@@ -9,7 +9,7 @@ import Register from './pages/Auth/Register';
 // import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Login from './pages/Auth/Login';
-import Dashboard from './pages/user/Dashboard';
+import Dashboard from './pages/User/Dashboard';
 import PrivateRoute from './components/Routes/Private';
 import ForgotPassword from './pages/Auth/ForgotPassword';
 import AdminRoute from './components/Routes/AdminRoute';
@@ -17,8 +17,8 @@ import AdminDashboard from './pages/Admin/AdminDashboard';
 import CreateCategory from './pages/Admin/CreateCategory';
 import CreateProduct from './pages/Admin/CreateProduct';
 import Users from './pages/Admin/Users';
-import Orders from './pages/user/Orders';
-import Profile from './pages/user/Profile';
+import Orders from './pages/User/Orders';
+import Profile from './pages/User/Profile';
 import Products from './pages/Admin/Products';
 import UpdateProduct from './pages/Admin/UpdateProduct';
 import Search from './pages/Search';
@@ -27,6 +27,7 @@ import Categories from './pages/Categories';
 import CategoryProduct from './pages/CategoryProduct';
 import CartPage from './pages/CartPage';
 import AdminOrders from './pages/Admin/AdminOrders';
+
 
 
 

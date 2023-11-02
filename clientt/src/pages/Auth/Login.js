@@ -3,13 +3,15 @@ import Layout from '../../components/Layout/Layout';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import "../../styles/AuthStyles.css";
+import "./Login.scss";
 import { useAuth } from '../../context/auth';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [auth, setAuth] = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -45,8 +47,17 @@ const Login = () => {
         }
     }
 
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+
     const handleCreateAccount = () => {
         navigate('/register');
+    }
+
+    const handleForgotPassword = () => {
+        navigate('/forgot-password');
     }
 
     return (
@@ -63,10 +74,10 @@ const Login = () => {
                             className="form-control"
                             id="exampleInputEmail1"
                             placeholder='Enter your Email'
-                            required
+                            // required
                         />
                     </div>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                         <label htmlFor="exampleInputPassword1">Password</label>
                         <input
                             type="password"
@@ -77,29 +88,60 @@ const Login = () => {
                             placeholder='Enter your Password'
                             required
                         />
+                    </div> */}
+                    <div className="mb-3">
+                        <label htmlFor="exampleInputPassword1">Password</label>
+                        <div className="password-input">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="form-control"
+                                id="exampleInputPassword1"
+                                placeholder='Enter your Password'
+                                // required
+                            />
+                            <FaEye
+                                className="eye-icon"
+                                onClick={toggleShowPassword}
+                            />
+                        </div>
                     </div>
 
                     <button type="submit" className="btn btn-primary login">
                         Login
                     </button>
 
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                         <button type="button" className="btn btn-primary mt-3 fg-pass" onClick={(e) => { navigate('/forgot-password') }}>
                             Forgot Password
                         </button>
-                    </div>
+                    </div> */}
 
                     <p style={{ textAlign: "right", marginTop: "10px" }}>
                         <small
                             className="create-account-link"
                             onClick={handleCreateAccount}
                             style={{
-                            color: "blue", // Màu xanh
-                            textDecoration: "underline", // Gạch chân
-                            cursor: "pointer", // Đổi hình con trỏ khi rê chuột vào
+                            color: "blue", 
+                            textDecoration: "underline", 
+                            cursor: "pointer", 
                             }}
                         >
-                            Create Account
+                            Don't have Account, create Account
+                        </small>
+                    </p>
+                    <p style={{ textAlign: "right", marginTop: "10px" }}>
+                        <small
+                            className="create-account-link"
+                            onClick={handleForgotPassword}
+                            style={{
+                            color: "blue", 
+                            textDecoration: "underline", 
+                            cursor: "pointer", 
+                            }}
+                        >
+                            Forgot Password
                         </small>
                     </p>
                 </form>

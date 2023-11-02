@@ -28,52 +28,52 @@ router.post('/create-product', requireSignIn, isAdmin, createProductController);
 
 // routes
 router.put(
-    "/update-product/:pid",
-    requireSignIn,
-    isAdmin,
-    // formidable(),
-    updateProductController
-  );
-  
-//   get products
-  router.get("/get-product", getProductController);
-  
-  //single product
-  router.get("/get-product/:slug", getSingleProductController);
-  
-  //get photo
-  router.get("/product-photo/:pid", productPhotoController);
-  
-//   //delete rproduct
-  router.delete("/delete-product/:pid", deleteProductController);
+  "/update-product/:pid",
+  requireSignIn,
+  isAdmin,
+  // formidable(),
+  updateProductController
+);
 
-  //filter product
-  router.post("/product-filters", productFiltersController);
+// get products
+router.get("/get-product", getProductController);
 
-  //product count
-  router.get("/product-count", productCountController);
+//single product
+router.get("/get-product/:slug", getSingleProductController);
 
-  //product per page
-  router.get("/product-list/:page", productListController);
+//get photo
+router.get("/product-photo/:pid", productPhotoController);
 
-  //search product
-  router.get("/search/:keyword", searchProductController);
+//delete rproduct
+router.delete("/delete-product/:pid", deleteProductController);
 
-  //similar product
-  router.get("/related-product/:pid/:cid", realtedProductController);
+//filter product
+router.post("/product-filters", productFiltersController);
 
-  //category wise product
-  router.get("/product-category/:slug", productCategoryController);
+//product count
+router.get("/product-count", productCountController);
 
-  //payments routes
-  //token
-  router.get("/braintree/token", braintreeTokenController);
+//product per page
+router.get("/product-list/:page", productListController);
 
-  //payments
-  router.post("/braintree/payment", requireSignIn,  brainTreePaymentController);
+//search product
+router.get("/search/:keyword", searchProductController);
 
-  //admin count
-  router.get("/count-product", countProductsController);
+//similar product
+router.get("/related-product/:pid/:cid", realtedProductController);
+
+//category wise product
+router.get("/product-category/:slug", productCategoryController);
+
+//payments routes
+//token
+router.get("/braintree/token", braintreeTokenController);
+
+//payments
+router.post("/braintree/payment", requireSignIn,  brainTreePaymentController);
+
+//admin count
+router.get("/count-product", countProductsController);
 
   //product per page
 router.get("/product-listt/:page", productList2Controller);

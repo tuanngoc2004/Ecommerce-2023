@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import DropIn from 'braintree-web-drop-in-react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import "../styles/CartStyles.css";
+import "./CartStyles.scss";
 
 const CartPage = () => {
     const [auth, setAuth] = useAuth();
@@ -34,7 +34,7 @@ const CartPage = () => {
 
     // Increase quantity of an item in the cart
     const increaseQuantity = (pid) => {
-      const maxQuantity = 10; // Số lượng tối đa cho mỗi sản phẩm
+      const maxQuantity = 10; 
       const updatedCart = cart.map(item => {
           if (item.id === pid) {
               const newQuantity = item.quantity + 1;

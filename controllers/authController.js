@@ -23,11 +23,13 @@ export const registerController = async (req, res) => {
     if (!name) {
       return res.send({ message: "Name is required" });
     }
-    if (!email) {
-      return res.send({ message: "Email is required" });
+    // Kiểm tra định dạng email bằng regex
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!email || !email.match(emailRegex)) {
+      return res.send({ message: "Email is required or invalid" });
     }
-    if (!password) {
-      return res.send({ message: "Password is required" });
+    if (!password || password.length < 8) {
+      return res.send({ message: "Password is required and must be at least 8 characters long" });
     }
     if (!phone) {
       return res.send({ message: "Phone is required" });
@@ -332,10 +334,8 @@ export const orderStatusController = async (req, res) => {
         message: 'Order not found',
       });
     }
-  } 
-
-     
-catch (error) {
+  }  
+  catch (error) {
     console.error(error);
     res.status(500).send({
       success: false,
@@ -346,7 +346,7 @@ catch (error) {
 };
 
 
-// Function to get all users
+// Function to get all users of admin
 export const getAllUsersController = async (req, res) => {
   try {
     const users = await getAllUsers(); 
@@ -370,6 +370,31 @@ export const getAllUsersController = async (req, res) => {
     });
   }
 };
+
+// Function to get all users bloked of admin
+// export const getAllUsersBlokedController = async (req, res) => {
+//   try {
+//     const users = await getAllUsersBloked(); 
+//     if (users) {
+//       return res.status(200).send({
+//         success: true,
+//         users,
+//       });
+//     } else {
+//       return res.status(404).send({
+//         success: false,
+//         message: 'No users found',
+//       });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({
+//       success: false,
+//       message: 'Error while getting users',
+//       error,
+//     });
+//   }
+// };
 
 // Function to edit user status
 export const editStatusController = async (req, res) => {
@@ -401,6 +426,38 @@ export const editStatusController = async (req, res) => {
     });
   }
 };
+
+
+
+// export const editStatusToOpenController = async (req, res) => {
+//   try {
+//     const { userId } = req.params;
+//     const { role_as } = req.body;
+//     console.log(userId);
+//     console.log(role_as);
+    
+//     const isUpdated = await editStatusToOpen(userId, role_as); 
+    
+//     if (isUpdated) {
+//       return res.status(200).send({
+//         success: true,
+//         message: 'User status updated successfully',
+//       });
+//     } else {
+//       return res.status(404).send({
+//         success: false,
+//         message: 'User not found',
+//       });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send({
+//       success: false,
+//       message: 'Error while updating user status',
+//       error,
+//     });
+//   }
+// };
 
 
 

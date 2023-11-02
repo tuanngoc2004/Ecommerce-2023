@@ -4,7 +4,7 @@ import UserMenu from '../../components/Layout/UserMenu';
 import { useAuth } from '../../context/auth';
 import axios from 'axios';
 import moment from 'moment';
-import "../../styles/Orders.css";
+import "./Orders.scss";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);

@@ -3,7 +3,8 @@ import Layout from '../../components/Layout/Layout'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import "../../styles/Register.css";
+import "./Register.scss";
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Sử dụng react-icons
 
 const Register = () => {
 
@@ -14,6 +15,8 @@ const Register = () => {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [answer, setAnswer] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showRePassword, setShowRePassword] = useState(false); // Thêm trạng thái hiển thị mật khẩu cho trường nhập lại mật khẩu
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -46,6 +49,14 @@ const Register = () => {
                 toast.error("Something went wrong");
             }
         }
+    };
+
+    const toggleShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const toggleShowRePassword = () => {
+        setShowRePassword(!showRePassword);
     };
 
     const handleBackToLogin = () => {
@@ -86,46 +97,60 @@ const Register = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     placeholder='Enter your name'
-                    required
+                    // required
                     autoFocus
                     />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1">Email</label>
                     <input
-                    type="email"
+                    type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="form-control"
                     id="exampleInputEmail1"
                     placeholder='Enter your Email'
-                    required
+                    // required
                     />
                 </div>
                 <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="form-control"
-                    id="exampleInputPassword1"
-                    placeholder='Enter your Password'
-                    required
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1">RePassword</label>
-                    <input
-                        type="password"
-                        value={rePassword}
-                        onChange={(e) => setRePassword(e.target.value)}
-                        className="form-control"
-                        id="exampleInputPassword2"
-                        placeholder="Re-enter your Password"
-                        required
-                    />
-                </div>
+                        <label htmlFor="exampleInputPassword1">Password</label>
+                        <div className="password-input">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="form-control"
+                                id="exampleInputPassword1"
+                                placeholder='Enter your Password'
+                                // required
+                            />
+                            {showPassword ? (
+                                <FaEyeSlash onClick={toggleShowPassword} className="eye-icon" />
+                            ) : (
+                                <FaEye onClick={toggleShowPassword} className="eye-icon"/>
+                            )}
+                        </div>
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="exampleInputPassword1">RePassword</label>
+                        <div className="password-input">
+                            <input
+                                type={showRePassword ? "text" : "password"}
+                                value={rePassword}
+                                onChange={(e) => setRePassword(e.target.value)}
+                                className="form-control"
+                                id="exampleInputPassword2"
+                                placeholder="Re-enter your Password"
+                                // required
+                            />
+                            {showRePassword ? (
+                                <FaEyeSlash onClick={toggleShowRePassword} className="eye-icon" />
+                            ) : (
+                                <FaEye onClick={toggleShowRePassword} className="eye-icon" />
+                            )}
+                        </div>
+                    </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1">Phone</label>
                     <input
@@ -135,7 +160,7 @@ const Register = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     placeholder='Enter your Phone'
-                    required
+                    // required
                     />
                 </div>
                 <div>
@@ -147,7 +172,7 @@ const Register = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     placeholder='Enter your Address'
-                    required
+                    // required
                     />
                 </div>
                 <div>
@@ -159,7 +184,7 @@ const Register = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     placeholder='What is your favorite sport?'
-                    required
+                    // required
                     />
                 </div>
                 

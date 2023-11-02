@@ -5,7 +5,7 @@ import {Helmet} from "react-helmet"
 import {Toaster} from "react-hot-toast";
 
 
-const Layout2 = ({ children, title, description, keywords, author }) => {
+const LayoutAdmin = ({ children, title, description, keywords, author }) => {
   const toastOptions = {
     duration: 1500, // Thời gian tồn tại của thông báo (đơn vị: ms)
     
@@ -32,11 +32,11 @@ const Layout2 = ({ children, title, description, keywords, author }) => {
   );
 };
 
-Layout2.defaultProps = {
+LayoutAdmin.defaultProps = {
     title: "Ecommerce app - shope now",
     description: "mern stack project",
     keywords: "react, node, xampp, mern",
     author: "Ngoc",
 };
 
-export default Layout2
+export default LayoutAdmin

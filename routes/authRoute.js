@@ -1,7 +1,18 @@
 import express from "express";
-import {registerController, loginController, testController, forgotPasswordController,
-     updateProfileController, getOrdersController, getAllOrdersController, orderStatusController, getAllUsersController, editStatusController, getUserOrdersController} from "../controllers/authController.js";
+import {registerController,
+  loginController, 
+  testController, 
+  forgotPasswordController,
+  updateProfileController, 
+  getOrdersController, 
+  getAllOrdersController, 
+  orderStatusController, 
+  getAllUsersController, 
+  editStatusController, 
+  
+} from "../controllers/authController.js";
 import { requireSignIn, isAdmin, authenticateUser } from "../middlewares/authMiddleware.js";
+
 
 //route project
 const router = express.Router();
@@ -48,6 +59,8 @@ router.put(
 
 router.get("/all-users", requireSignIn, isAdmin,  getAllUsersController);
 
+// router.get("/all-user-block", requireSignIn, isAdmin,  getAllUsersBlokedController);
+
 router.put(
   "/user-status/:userId",
   requireSignIn,
@@ -55,6 +68,7 @@ router.put(
   editStatusController
 );
 
-router.get("/get-user-orders/:userId", requireSignIn, isAdmin, getUserOrdersController);
+
+// router.get("/get-user-orders/:userId", requireSignIn, isAdmin, getUserOrdersController);
 
 export default router;

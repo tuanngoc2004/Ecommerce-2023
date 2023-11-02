@@ -1,0 +1,48 @@
+/* Header.scss */
+
+// Basic styling for the header
+.navbar {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 100;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+  transition: top 0.3s;
+  
+  &.sticky {
+    top: -60px;
+  }
+}
+
+.navbar-brand {
+  font-size: 24px;
+  padding: 10px;
+}
+
+// Styling for navigation links
+.navbar-nav {
+  .nav-link {
+    margin: 0 10px;
+    color: #333;
+    font-weight: 600;
+    
+    &:hover {
+      color: #ffcc00 !important;
+    }
+  }
+}
+
+// Styling for the "Cart" item
+.nav-item.cart-item {
+  display: flex;
+  align-items: center;
+  
+  .ant-badge {
+    margin-right: 10px;
+  }
+  
+  .nav-link {
+    font-size: 16px;
+    font-weight: 600;
+  }
+}

@@ -8,7 +8,7 @@ import {Checkbox, Radio} from 'antd'
 import { Prices } from '../components/Prices'
 import { useCart } from '../context/cart'
 import { toast } from 'react-hot-toast'
-import "../styles/Homepage.css";
+import "./Homepage.scss";
 import ReactHtmlParser from 'react-html-parser';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // import 'swiper/swiper-bundle.min.css'; // Import CSS for Swiper

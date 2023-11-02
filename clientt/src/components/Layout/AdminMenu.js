@@ -1,12 +1,17 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import '../../styles/AdminMenu.css';   // Import tệp CSS
+import './AdminMenu.scss';   // Import tệp CSS
 
 const AdminMenu = () => {
   return (
     <div className="admin-menu">
       <h4 className="admin-menu-title">Admin Panel</h4>
       <ul className="list-group">
+        <li className="list-group-item">
+          <NavLink to="/dashboard/admin/" className="nav-link">
+            Admin Dashboard
+          </NavLink>
+        </li>
         <li className="list-group-item">
           <NavLink to="/dashboard/admin/create-category" className="nav-link">
             Create Category

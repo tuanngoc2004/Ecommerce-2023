@@ -6,7 +6,7 @@ import SearchInput from "../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
 import { useCart } from "../../context/cart";
 import { Badge } from "antd";
-import '../../styles/header.css'
+import './Header.scss'
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
