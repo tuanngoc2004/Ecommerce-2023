@@ -121,7 +121,6 @@ export const findById = async (id) => {
 };
 
 
-
 export const findByIdAndDelete = async (productId) => {
     try {
         const connection = await pool.getConnection();

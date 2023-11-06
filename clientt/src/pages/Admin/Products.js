@@ -56,14 +56,12 @@ const Products = () => {
     }
   };
 
-  // Hàm xử lý sự kiện thay đổi hộp văn bản tìm kiếm
+
   const handleSearchChange = (event) => {
     setSearchKeyword(event.target.value);
     if (event.target.value === "") {
-      // Nếu hộp văn bản trống rỗng, hiển thị lại toàn bộ sản phẩm
       getProductsByPage(currentPage);
     } else {
-      // Ngược lại, tìm kiếm sản phẩm dựa trên từ khóa
       searchProducts(event.target.value);
     }
   };

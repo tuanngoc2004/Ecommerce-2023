@@ -167,9 +167,9 @@ const CartPage = () => {
                                         </div>
                                         <div className="col-md-4 cart-remove-btn">
                                             <div className="quantity-controls">
-                                                <button className="btn btn-sm btn-danger" onClick={() => decreaseQuantity(item.id)}>-</button>
+                                                <button className="btn btn-sm btn-danger" onClick={() => decreaseQuantity(item.id)} style={{ marginRight: '5px' }}>-</button>
                                                 <span>{item.quantity}</span>
-                                                <button className="btn btn-sm btn-success" onClick={() => increaseQuantity(item.id)}>+</button>
+                                                <button className="btn btn-sm btn-success" onClick={() => increaseQuantity(item.id)} style={{ marginLeft: '5px' ,marginRight: '20px' }}>+</button>
                                             </div>
                                             <button
                                                 className="btn btn-danger"

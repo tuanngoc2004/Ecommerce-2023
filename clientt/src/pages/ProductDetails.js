@@ -1,70 +1,71 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout/Layout';
-import axios from 'axios';
+// import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import "./ProductDetailsStyles.scss";
-import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+// import CKEditor from "@ckeditor/ckeditor5-react";
+// import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import ReactHtmlParser from 'react-html-parser';
 import { useCart } from '../context/cart';
 import toast from 'react-hot-toast';
+import { useProductDetails } from '../hooks/useProductDetails';
 
 const ProductDetails = () => {
   const params = useParams();
-  const [product, setProduct] = useState({});
-  const [category, setCategory] = useState({});
-  const [relatedProducts, setRelatedProducts] = useState([]);
+  // const [product, setProduct] = useState({});
+  // const [category, setCategory] = useState({});
+  // const [relatedProducts, setRelatedProducts] = useState([]);
   const [cart, setCart] = useCart(); // Import the cart state and setter
 
-  //initalp details
-  useEffect(() => {
-    if (params?.slug) getProduct();
-  }, [params?.slug]);
+  // //initalp details
+  // useEffect(() => {
+  //   if (params?.slug) getProduct();
+  // }, [params?.slug]);
 
-  const getProduct = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/product/get-product/${params.slug}?${Date.now()}`
-      );
-      setProduct(data?.product);
+  // const getProduct = async () => {
+  //   try {
+  //     const { data } = await axios.get(
+  //       `${process.env.REACT_APP_API}/api/product/get-product/${params.slug}?${Date.now()}`
+  //     );
+  //     setProduct(data?.product);
 
-      if (data?.product?.category_id) {
-        try {
-          const categoryId = data.product.category_id;
-          const categoryResponse = await axios.get(
-            `${process.env.REACT_APP_API}/api/category/singlee-category/${categoryId}?${Date.now()}`
-          );
-          if (categoryResponse.status === 200) {
-            setCategory(categoryResponse.data?.category);
-            // Call the function to get related products here
-            getRelatedProducts(data.product.id, categoryId);
-          } else {
-            setCategory({ name: 'Category Not Found' }); // Handle category not found
-          }
-        } catch (error) {
-          console.error(error);
-          setCategory({ name: 'Category Error' }); // Handle category request error
-        }
-      } else {
-        // Handle case where category_id is not provided in product data
-        setCategory({ name: 'Category Not Provided' });
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     if (data?.product?.category_id) {
+  //       try {
+  //         const categoryId = data.product.category_id;
+  //         const categoryResponse = await axios.get(
+  //           `${process.env.REACT_APP_API}/api/category/singlee-category/${categoryId}?${Date.now()}`
+  //         );
+  //         if (categoryResponse.status === 200) {
+  //           setCategory(categoryResponse.data?.category);
+  //           // Call the function to get related products here
+  //           getRelatedProducts(data.product.id, categoryId);
+  //         } else {
+  //           setCategory({ name: 'Category Not Found' }); // Handle category not found
+  //         }
+  //       } catch (error) {
+  //         console.error(error);
+  //         setCategory({ name: 'Category Error' }); // Handle category request error
+  //       }
+  //     } else {
+  //       // Handle case where category_id is not provided in product data
+  //       setCategory({ name: 'Category Not Provided' });
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  // Function to get related products
-  const getRelatedProducts = async (productId, categoryId) => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/product/related-product/${productId}/${categoryId}?${Date.now()}`
-      );
-      setRelatedProducts(data?.products);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // // Function to get related products
+  // const getRelatedProducts = async (productId, categoryId) => {
+  //   try {
+  //     const { data } = await axios.get(
+  //       `${process.env.REACT_APP_API}/api/product/related-product/${productId}/${categoryId}?${Date.now()}`
+  //     );
+  //     setRelatedProducts(data?.products);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const addToCart = (product) => {
     const productInCart = cart.find((item) => item.id === product.id);
@@ -80,6 +81,8 @@ const ProductDetails = () => {
       toast.success("Item Added to Cart");
     }
   }
+
+  const { product, category, relatedProducts } = useProductDetails(params.slug);
 
   return (
     <Layout>

@@ -3,28 +3,30 @@ import Layout from "../components/Layout/Layout";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./CategoryProductStyles.scss";
+import { useCategoryProduct } from "../hooks/useCategoryProduct";
 
 const CategoryProduct = () => {
   const params = useParams();
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState([]);
+  // const [products, setProducts] = useState([]);
+  // const [category, setCategory] = useState([]);
 
-  useEffect(() => {
-    if (params?.slug) getPrductsByCat();
-  }, [params?.slug]);
-  const getPrductsByCat = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/api/product/product-category/${params.slug}?${Date.now()}`
-      );
-      setProducts(data?.products);
-      setCategory(data?.category);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  // useEffect(() => {
+  //   if (params?.slug) getPrductsByCat();
+  // }, [params?.slug]);
+  // const getPrductsByCat = async () => {
+  //   try {
+  //     const { data } = await axios.get(
+  //       `${process.env.REACT_APP_API}/api/product/product-category/${params.slug}?${Date.now()}`
+  //     );
+  //     setProducts(data?.products);
+  //     setCategory(data?.category);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const params = useParams();
+  const { products, category, loading, getProductsByCategory } = useCategoryProduct(params.slug);
   return (
     <Layout>
       <div className="container mt-3 category">
